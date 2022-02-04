@@ -5,4 +5,3 @@ name : breakfast tea, price : 2.2, type : hot beverage
 name : earl grey, price : 2.2,type : hot beverage
 name : Irn Bru, type : cold bev, price : 3.0
 name : asdas, type : asdas, price : 12.4
-name : asdsds, type : ewffasda, price : 23.0

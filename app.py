@@ -131,8 +131,6 @@ def create_courier(database_list):
 
   write_file("data/couriers.txt", couriers_list)
   
-  couriers_menu()
-
 def update_courier(database_list):
   couriers_list = database_list
   print_products(couriers_list)
@@ -154,7 +152,6 @@ def update_courier(database_list):
 
       write_file("data/products.txt", couriers_list)
   
-      couriers_menu()
       break
 
 def delete_courier(database_list):
@@ -171,7 +168,7 @@ def delete_courier(database_list):
       couriers_list.pop(delete_index)
 
       write_file("data/couriers.txt", couriers_list)
-      couriers_menu()
+      
       break
 
 # ORDERS MENU OPTIONS
@@ -252,9 +249,6 @@ def update_order_status(database_list):
           orders_menu()
           break
 
-    
-
-
 def update_order(database_list):
   orders_list = database_list
   print_orders(orders_list)
@@ -308,20 +302,20 @@ def update_order(database_list):
       break
 
 def delete_order(database_list):
-  couriers_list = database_list
-  print_products(couriers_list)
+  orders_list = database_list
+  print_orders(orders_list)
   
   while True:
     try:
-      delete_index = int(input("\nWhich courier would you like to delete? Enter their index number: "))
+      delete_index = int(input("\nWhich order would you like to delete? Enter their index number: "))
     except ValueError as err:
       print("\nInvalid index. Please try again!")
 
     else:
-      couriers_list.pop(delete_index)
+      orders_list.pop(delete_index)
 
-      write_file("data/couriers.txt", couriers_list)
-      couriers_menu()
+      write_csv_file("data/orders.csv", orders_list)
+      orders_menu()
       break
 
 # MAIN MENU
@@ -394,8 +388,8 @@ def couriers_menu():
     system('clear')
     courier_menu_func = courier_menu_options[chosen_menu_option]
     courier_menu_func(database_list)
+    products_menu()
     
-
   except KeyError as ke:
     print(f'{ke} is an invalid number, please try again!')
     couriers_menu()
