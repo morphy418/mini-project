@@ -1,7 +1,3 @@
-name : espresso, price : 2.1, type : hot beverage
-name : latte, price : 3.2, type : hot beverage
-name : Cappucccccino, type : hotbev, price : 2.4
-name : breakfast tea, price : 2.2, type : hot beverage
-name : earl grey, price : 2.2,type : hot beverage
-name : Irn Bru, type : cold bev, price : 3.0
-name : asdas, type : asdas, price : 12.4
+name : Xen, type : Deliveroo, price : 30.0
+name : Nassera, company : Uber , availability : 20.0hour/week
+name : Saharla, company : Deliveroo, availability : 31.0hour/week
