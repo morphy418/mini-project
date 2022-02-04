@@ -192,8 +192,8 @@ def delete_courier(database_list):
     else:
       break
 
-    couriers_list.pop(delete_index)
-    write_file("data/couriers.txt", couriers_list)
+  couriers_list.pop(delete_index)
+  write_file("data/couriers.txt", couriers_list)
 
 # ORDERS MENU OPTIONS
 
