@@ -190,7 +190,7 @@ def create_order(database_list):
   customer_name = input("\nPlease add the customer's name: ")
   customer_address = input("\nPlease enter the customer's address: ")
   customer_phone = input("\nPlease enter the customer's phone: ")
-  # print_couriers()
+  print_couriers(generate_list_from_database("data/couriers.txt"))
   selected_courier = int(input("Please select from a the available couriers above by entering their ID: "))
   order_status = "preparing"
 
@@ -267,28 +267,30 @@ def update_order(database_list):
       updated_customer_name = input("\nPlease add the customer's name: ")
       updated_customer_address = input("\nPlease enter the customer's address: ")
       updated_customer_phone = input("\nPlease enter the customer's phone: ")
-      # print_couriers()
-      updated_selected_courier = int(input("Please select from a the available couriers above by entering their ID: "))
+      print_couriers(generate_list_from_database("data/couriers.txt"))
+      updated_selected_courier = int(input("\nPlease select from a the available couriers above by entering their ID: "))
 
-      order_status_list = ["preparing", "on the way", "delivered", "cancelled"]
-      for status in order_status_list:
-        print(f'{order_status_list.index(status)} - {status}')
-      updated_status_index = int(input('\n Please choose an order status (enter their number)'))
-      updated_order_status = order_status_list[updated_status_index]
+      # order_status_list = ["preparing", "on the way", "delivered", "cancelled"]
+      # for status in order_status_list:
+      #   print(f'{order_status_list.index(status)} - {status}')
+      # updated_status_index = int(input('\n Please choose an order status (enter their number)'))
+      # updated_order_status = order_status_list[updated_status_index]
 
       updated_customer_obj = [
         updated_customer_name, 
         updated_customer_address, 
         updated_customer_phone, 
         updated_selected_courier, 
-        updated_order_status]
+        # updated_order_status
+        ]
 
       fieldnames = [
       "customer_name", 
       "customer_address", 
       "customer_phone", 
       "selected_courier", 
-      "order_status"]
+      # "order_status"
+      ]
 
       for update in updated_customer_obj:
         # print(f'user input: {update}\n')
@@ -388,7 +390,7 @@ def couriers_menu():
     system('clear')
     courier_menu_func = courier_menu_options[chosen_menu_option]
     courier_menu_func(database_list)
-    products_menu()
+    couriers_menu()
     
   except KeyError as ke:
     print(f'{ke} is an invalid number, please try again!')
@@ -397,7 +399,7 @@ def couriers_menu():
 # ORDERS MENU
 def orders_menu():
   database_list = read_csv_file("data/orders.csv")
-  # print(database_list)
+
   chosen_menu_option = input("""
   Orders Menu Options:
 
