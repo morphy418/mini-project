@@ -1,3 +1,5 @@
 name : Xen, company : Deliveroo, availability : 25.0hour/week
 name : Nassera, company : Uber , availability : 20.0hour/week
 name : Saharla, company : Deliveroo, availability : 31.0hour/week
+name : Najib, company : Deliveroo, availability : 20.0hour/week
+name : Rutely, company : Uber, availability : 18.0hour/week

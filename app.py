@@ -87,7 +87,7 @@ def update_product(database_list):
       update_index = int(input("\nWhich product would you like to update? Enter their index number: "))
       print(f'\nItem to update: {products_list[update_index]}')
     except ValueError as err:
-      print("\nInvalid index. Please try again!")
+      print("\nInvalid number. Please try again!")
     else:
       break
 
@@ -117,7 +117,7 @@ def delete_product(database_list):
     try:
       delete_index = int(input("\nWhich product would you like to delete? Enter their index number: "))
     except ValueError as err:
-      print("\nInvalid index. Please try again!")
+      print("\nInvalid number. Please try again!")
     else:
       break
 
@@ -159,7 +159,7 @@ def update_courier(database_list):
       update_index = int(input("\nWhich courier would you like to update? Enter their index number: "))
       print(f'\nItem to update: {couriers_list[update_index]}')
     except ValueError as err:
-      print("\nInvalid index. Please try again!")
+      print("\nInvalid number. Please try again!")
     else:
       break
 
@@ -178,7 +178,6 @@ def update_courier(database_list):
   couriers_list[update_index] = updated_courier
 
   write_file("data/courier.txt", couriers_list)
-
 
 def delete_courier(database_list):
   couriers_list = database_list
@@ -242,8 +241,6 @@ def create_order(database_list):
     "order_status" : order_status
     }
 
-  print(new_order_dict)
-
   orders_list.append(new_order_dict)
 
   write_csv_file("data/orders.csv", orders_list)
@@ -259,28 +256,28 @@ def update_order_status(database_list):
       order_index = int(input("\nWhich order status would you like to update? Enter their ID number: "))
       print(f'\nOrder status to update: {orders_list[order_index]}')
     except ValueError as err:
-      print("\nInvalid index. Please try again!")
+      print("\nInvalid number. Please try again!")
     else:
       break
 
-    while True:
-      try:
-        order_status_list = ["preparing", "on the way", "delivered", "cancelled"]
-        for status in order_status_list:
-          print(f'{order_status_list.index(status)} - {status}')
-        status_index= int(input('\n Please choose an order status (enter their number)'))
-      except ValueError as err:
-        print("\nInvalid index. Please try again!")
-      else:
-        break
+  while True:
+    try:
+      order_status_list = ["preparing", "on the way", "delivered", "cancelled"]
+      for status in order_status_list:
+        print(f'{order_status_list.index(status)} - {status}')
+      status_index = int(input('\n Please choose an order status (enter their number): '))
+    except ValueError as err:
+      print("\nInvalid number. Please try again!")
+    else:
+      break
 
-      print(orders_list[order_index]["order_status"])
-      print(order_status_list[status_index])
+  print(orders_list[order_index]["order_status"])
+  print(order_status_list[status_index])
 
-      orders_list[order_index]["order_status"] = order_status_list[status_index]
-      write_csv_file("data/orders.csv", orders_list)
+  orders_list[order_index]["order_status"] = order_status_list[status_index]
+  write_csv_file("data/orders.csv", orders_list)
 
-      orders_menu()
+  orders_menu()
 
 def update_order(database_list):
   orders_list = database_list
@@ -292,23 +289,23 @@ def update_order(database_list):
       chosen_order = orders_list[order_index]
       print(f'\nOrder to update: {chosen_order}')
     except ValueError as err:
-      print("\nInvalid index. Please try again!")
+      print("\nInvalid number. Please try again!")
     else:
       break
       
-    print("Please enter the new order data. (Hit 'Enter' if you don't want to change it): \n")
-    
-    updated_customer_name = input("\nPlease add the customer's name: ")
-    updated_customer_address = input("\nPlease enter the customer's address: ")
-    updated_customer_phone = input("\nPlease enter the customer's phone: ")
-    print_couriers(generate_list_from_database("data/couriers.txt"))
-    while True:
-      try:
-        updated_selected_courier = int(input("\nPlease select from a the available couriers above by entering their ID: "))
-      except ValueError as err:
-        print("\nInvalid number. Please try again!")
-      else:
-        break  
+  print("Please enter the new order data. (Hit 'Enter' if you don't want to change it): \n")
+  
+  updated_customer_name = input("\nPlease add the customer's name: ")
+  updated_customer_address = input("\nPlease enter the customer's address: ")
+  updated_customer_phone = input("\nPlease enter the customer's phone: ")
+  print_couriers(generate_list_from_database("data/couriers.txt"))
+  while True:
+    try:
+      updated_selected_courier = int(input("\nPlease select from a the available couriers above by entering their ID: "))
+    except ValueError as err:
+      print("\nInvalid number. Please try again!")
+    else:
+      break  
 
     # order_status_list = ["preparing", "on the way", "delivered", "cancelled"]
     # for status in order_status_list:
@@ -316,31 +313,31 @@ def update_order(database_list):
     # updated_status_index = int(input('\n Please choose an order status (enter their number)'))
     # updated_order_status = order_status_list[updated_status_index]
 
-    updated_customer_obj = [
-      updated_customer_name, 
-      updated_customer_address, 
-      updated_customer_phone, 
-      updated_selected_courier, 
-      # updated_order_status
-      ]
-
-    fieldnames = [
-    "customer_name", 
-    "customer_address", 
-    "customer_phone", 
-    "selected_courier", 
-    # "order_status"
+  updated_customer_obj = [
+    updated_customer_name, 
+    updated_customer_address, 
+    updated_customer_phone, 
+    updated_selected_courier, 
+    # updated_order_status
     ]
 
-    for update in updated_customer_obj:
-      # print(f'user input: {update}\n')
-      if update != "" and update != None:
-        index = updated_customer_obj.index(update)
-        chosen_order[fieldnames[index]] = updated_customer_obj[index]
+  fieldnames = [
+  "customer_name", 
+  "customer_address", 
+  "customer_phone", 
+  "selected_courier", 
+  # "order_status"
+  ]
 
-    write_csv_file("data/orders.csv", orders_list)
+  for update in updated_customer_obj:
+    # print(f'user input: {update}\n')
+    if update != "" and update != None:
+      index = updated_customer_obj.index(update)
+      chosen_order[fieldnames[index]] = updated_customer_obj[index]
 
-    orders_menu()
+  write_csv_file("data/orders.csv", orders_list)
+
+  orders_menu()
       
 
 def delete_order(database_list):
@@ -351,14 +348,15 @@ def delete_order(database_list):
     try:
       delete_index = int(input("\nWhich order would you like to delete? Enter their index number: "))
     except ValueError as ve:
-      print("\nInvalid index. Please try again!")
-
+      print("\nInvalid number. Please try again!")
     else:
-      orders_list.pop(delete_index)
-
-      write_csv_file("data/orders.csv", orders_list)
-      orders_menu()
       break
+
+  orders_list.pop(delete_index)
+
+  write_csv_file("data/orders.csv", orders_list)
+  orders_menu()
+      
 
 # MAIN MENU
 def main_menu(*args):
@@ -393,7 +391,7 @@ def products_menu():
 
   (1-Print Products) 
   (2-Create New Product) 
-  (3-Update Existing Product) 
+  (3-Update Product) 
   (4-Delete Product) 
   (0-Return to Main Menu)
 
@@ -420,7 +418,7 @@ def couriers_menu():
 
   (1-Print Couriers) 
   (2-Create New Couriers) 
-  (3-Update Existing Courier) 
+  (3-Update Courier) 
   (4-Delete Courier) 
   (0-Return to Main Menu)
 
@@ -445,9 +443,9 @@ def orders_menu():
 
   (1-Print Orders) 
   (2-Create New Order) 
-  (3-Update Existing Order Status) 
-  (4-Update Existing Order)
-  (5-Delete Product) 
+  (3-Update Order Status) 
+  (4-Update Order)
+  (5-Delete Order) 
   (0-Return to Main Menu)
 
   Please enter the corresponding number: """)
