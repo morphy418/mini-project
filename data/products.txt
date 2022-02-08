@@ -5,3 +5,4 @@ name : orange juice, type : juice, price : 2.2
 name : grapefruit juice, type : juice, price : 2.2
 name : croissant, type : pastry, price : 1.5
 name : pain au chocolat, type : pastry, price : 1.6
+name : breakfast tea, type : hot bev, price : 1.5

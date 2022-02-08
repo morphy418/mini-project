@@ -1,6 +1,17 @@
 from os import system
 import csv
 
+# DESIGN
+
+def banner():
+  print("""
+ ██████╗ █████╗ ███████╗███████╗    ██╗  ██╗██████╗ 
+██╔════╝██╔══██╗██╔════╝██╔════╝    ██║  ██║╚════██╗
+██║     ███████║█████╗  █████╗      ███████║ █████╔╝
+██║     ██╔══██║██╔══╝  ██╔══╝      ╚════██║██╔═══╝ 
+╚██████╗██║  ██║██║     ███████╗         ██║███████╗
+ ╚═════╝╚═╝  ╚═╝╚═╝     ╚══════╝         ╚═╝╚══════╝!""")
+
 # FILE MANAGEMENT
 
 def read_file(file_name):
@@ -41,7 +52,7 @@ def write_csv_file(file_name, list):
     writer.writeheader()
 
     for dict_item in list:
-      print(dict_item)
+      # print(dict_item)
       writer.writerow(dict_item)
 
 #MAIN MENU OPTIONS
@@ -89,6 +100,7 @@ def update_product(database_list):
     except ValueError as err:
       print("\nInvalid number. Please try again!")
     else:
+      system('clear')
       break
 
   updated_product_name = input("Updated Product Name: ")
@@ -121,9 +133,14 @@ def delete_product(database_list):
     else:
       break
 
-  products_list.pop(delete_index)
+  deleted_product = products_list.pop(delete_index)
+  deletion_confirmation = input(f"Are you sure you want to delete {deleted_product}? (y or n): ")
+  if deletion_confirmation == "y":
+    write_file("data/products.txt", products_list) 
+  else:
+    products_list.append(deleted_product)
+    write_file("data/products.txt", products_list)
 
-  write_file("data/products.txt", products_list)  
 
 # COURIER MENU OPTIONS
 
@@ -173,11 +190,11 @@ def update_courier(database_list):
     else:
       break  
 
-  updated_courier = f"name : {updated_courier_name}, type : {updated_courier_company}, price : {updated_courier_availability}"
+  updated_courier = f"name : {updated_courier_name}, company : {updated_courier_company}, availability : {updated_courier_availability} hour/week"
 
   couriers_list[update_index] = updated_courier
 
-  write_file("data/courier.txt", couriers_list)
+  write_file("data/couriers.txt", couriers_list)
 
 def delete_courier(database_list):
   couriers_list = database_list
@@ -339,7 +356,6 @@ def update_order(database_list):
 
   orders_menu()
       
-
 def delete_order(database_list):
   orders_list = database_list
   print_orders(orders_list)
@@ -352,23 +368,29 @@ def delete_order(database_list):
     else:
       break
 
-  orders_list.pop(delete_index)
+  deleted_order = orders_list.pop(delete_index)
+  deletion_confirmation = input(f"Are you sure you want to delete {deleted_order}? (y or n): ")
+  if deletion_confirmation == "y":
+    write_csv_file("data/orders.csv", orders_list)
+  else:
+    orders_list.append(deleted_order)
+    write_csv_file("data/orders.csv", orders_list)
 
-  write_csv_file("data/orders.csv", orders_list)
   orders_menu()
       
 
 # MAIN MENU
 def main_menu(*args):
   system('clear')
-  print("\nWelcome to Git Cat Cafe!")
+  print("Welcome to".center(50))
+  banner()
 
   user_input = input("""
   Main Menu Options:
 
-  (1-Product Menu) 
-  (2-Courier Menu)
-  (3-Order Menu)
+  (1-Products Menu) 
+  (2-Couriers Menu)
+  (3-Orders Menu)
   (0-Exit App) 
 
   Please enter the corresponding number: """)
@@ -385,6 +407,7 @@ def main_menu(*args):
 # PRODUCTS MENU
 def products_menu():
   database_list = generate_list_from_database("data/products.txt")
+  banner()
 
   chosen_menu_option = input("""
   Products Menu Options:
@@ -395,7 +418,7 @@ def products_menu():
   (4-Delete Product) 
   (0-Return to Main Menu)
 
-  Please enter the corresponding number: """)
+  Please enter the menu option number: """)
 
   try:
     system('clear')
@@ -412,9 +435,10 @@ def products_menu():
 # COURIER MENU
 def couriers_menu():
   database_list = generate_list_from_database("data/couriers.txt")
+  banner()
 
   chosen_menu_option = input("""
-  Products Menu Options:
+  Couriers Menu Options:
 
   (1-Print Couriers) 
   (2-Create New Couriers) 
@@ -422,13 +446,14 @@ def couriers_menu():
   (4-Delete Courier) 
   (0-Return to Main Menu)
 
-  Please enter the corresponding number: """)
+  Please enter the menu option number: """)
 
   try:
     system('clear')
     courier_menu_func = courier_menu_options[chosen_menu_option]
     courier_menu_func(database_list)
-    couriers_menu()
+    if chosen_menu_option != "0":
+      couriers_menu()
     
   except KeyError as ke:
     print(f'{ke} is an invalid number, please try again!')
@@ -437,6 +462,7 @@ def couriers_menu():
 # ORDERS MENU
 def orders_menu():
   database_list = read_csv_file("data/orders.csv")
+  banner()
 
   chosen_menu_option = input("""
   Orders Menu Options:
@@ -448,7 +474,7 @@ def orders_menu():
   (5-Delete Order) 
   (0-Return to Main Menu)
 
-  Please enter the corresponding number: """)
+  Please enter the menu option number: """)
 
   try:
     system('clear')
