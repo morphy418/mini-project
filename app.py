@@ -1,6 +1,29 @@
 from os import system
 import csv
 
+# FIELDNAMES
+
+order_fieldnames = [
+      "customer name", 
+      "customer address", 
+      "customer phone", 
+      "selected courier", 
+      "order status"
+      ]
+
+product_fieldnames = [
+      "product name", 
+      "product type", 
+      "product price", 
+      ]
+
+courier_fieldnames = [
+      "courier name", 
+      "courier company", 
+      "courier phone", 
+      "courier availability",
+      ]
+
 # DESIGN
 
 def banner():
@@ -14,43 +37,34 @@ def banner():
 
 # FILE MANAGEMENT
 
-def read_file(file_name):
-  with open(file_name, "r") as open_file:
-    file_contents = open_file.readlines()
-    return file_contents
+# def read_file(file_name):
+#   with open(file_name, "r") as open_file:
+#     file_contents = open_file.readlines()
+#     return file_contents
 
-def write_file(file_name, list):
-  with open(file_name, "w") as database_file:
-    for item in list:
-      database_file.write(item.strip() + '\n')
+# def write_file(file_name, list):
+#   with open(file_name, "w") as database_file:
+#     for item in list:
+#       database_file.write(item.strip() + '\n')
 
-def generate_list_from_database(database):
-  with open(database, 'r') as data_file:
-    data = data_file.readlines()
-    data_list = [item.strip() for item in data]
-  return data_list
+# def generate_list_from_database(database):
+#   with open(database, 'r') as data_file:
+#     data = data_file.readlines()
+#     data_list = [item.strip() for item in data]
+#   return data_list
 
 def read_csv_file(file_name):
-  with open(file_name, "r") as database_file:
+  with open(file_name, "r", newline='') as database_file:
     reader = csv.DictReader(database_file)
     data = []
     for item in reader:
       data.append(item)
     return data
 
-def write_csv_file(file_name, list):
-  with open(file_name, "w") as database_file:
-    fieldnames = [
-      "customer_name", 
-      "customer_address", 
-      "customer_phone", 
-      "selected_courier", 
-      "order_status"]
-
+def write_csv_file(file_name, list, fieldnames):
+  with open(file_name, "w", newline='') as database_file:
     writer = csv.DictWriter(database_file, fieldnames=fieldnames)
-
     writer.writeheader()
-
     for dict_item in list:
       # print(dict_item)
       writer.writerow(dict_item)
@@ -58,15 +72,32 @@ def write_csv_file(file_name, list):
 #MAIN MENU OPTIONS
 def exit_app():
   print("\nYou exited the app.")
+  print('''
+██╗  ██╗ █████╗ ██╗   ██╗███████╗     █████╗                 
+██║  ██║██╔══██╗██║   ██║██╔════╝    ██╔══██╗                
+███████║███████║██║   ██║█████╗      ███████║                
+██╔══██║██╔══██║╚██╗ ██╔╝██╔══╝      ██╔══██║                
+██║  ██║██║  ██║ ╚████╔╝ ███████╗    ██║  ██║                
+╚═╝  ╚═╝╚═╝  ╚═╝  ╚═══╝  ╚══════╝    ╚═╝  ╚═╝                
+                                                             
+███╗   ██╗██╗ ██████╗███████╗    ██████╗  █████╗ ██╗   ██╗██╗
+████╗  ██║██║██╔════╝██╔════╝    ██╔══██╗██╔══██╗╚██╗ ██╔╝██║
+██╔██╗ ██║██║██║     █████╗      ██║  ██║███████║ ╚████╔╝ ██║
+██║╚██╗██║██║██║     ██╔══╝      ██║  ██║██╔══██║  ╚██╔╝  ╚═╝
+██║ ╚████║██║╚██████╗███████╗    ██████╔╝██║  ██║   ██║   ██╗
+╚═╝  ╚═══╝╚═╝ ╚═════╝╚══════╝    ╚═════╝ ╚═╝  ╚═╝   ╚═╝   ╚═╝
+                                                             ''')
 
 # PRODUCT MENU OPTIONS
 
 def print_products(database_list):
-  products_list = database_list
-
-  for product in products_list:
-    index = products_list.index(product)
-    print(f'{index} - {product.strip()}')
+  for product in database_list:
+    index = database_list.index(product)
+    print(f'''
+    Product ID: {index} 
+    Name: {product["product name"]} 
+    Type: {product["product type"]} 
+    Price: {product["product price"]}''')
   
 def create_new_product(database_list):
   products_list = database_list
@@ -81,11 +112,15 @@ def create_new_product(database_list):
     else:
       break
 
-  new_product = f"name : {new_product_name}, type : {new_product_type}, price : {new_product_price}"
+  new_product = {
+    "product name" : new_product_name, 
+    "product type" : new_product_type, 
+    "product price" : new_product_price
+  }
   
   products_list.append(new_product)
 
-  write_file("data/products.txt", products_list)
+  write_csv_file("data/products.csv", products_list, product_fieldnames)
   
   system('clear')
   
@@ -96,13 +131,12 @@ def update_product(database_list):
   while True:
     try:
       update_index = int(input("\nWhich product would you like to update? Enter their index number: "))
-      print(f'\nItem to update: {products_list[update_index]}')
     except ValueError as err:
       print("\nInvalid number. Please try again!")
     else:
       system('clear')
       break
-
+  print(f'\nItem to update: {products_list[update_index]}\n')
   updated_product_name = input("Updated Product Name: ")
   updated_product_type = input("Updated Product Type: ")
   while True:
@@ -113,11 +147,15 @@ def update_product(database_list):
     else:
       break
 
-  updated_product = f"name : {updated_product_name}, type : {updated_product_type}, price : {updated_product_price}"
+  updated_product = {
+    "product name" : updated_product_name, 
+    "product type" : updated_product_type, 
+    "product price" : updated_product_price
+  }
 
   products_list[update_index] = updated_product
 
-  write_file("data/products.txt", products_list)
+  write_csv_file("data/products.csv", products_list, product_fieldnames)
   
   system('clear')
 
@@ -136,10 +174,10 @@ def delete_product(database_list):
   deleted_product = products_list.pop(delete_index)
   deletion_confirmation = input(f"Are you sure you want to delete {deleted_product}? (y or n): ")
   if deletion_confirmation == "y":
-    write_file("data/products.txt", products_list) 
+    write_csv_file("data/products.csv", products_list, product_fieldnames)
   else:
     products_list.append(deleted_product)
-    write_file("data/products.txt", products_list)
+    write_csv_file("data/products.csv", products_list, product_fieldnames)
 
 
 # COURIER MENU OPTIONS
@@ -260,7 +298,7 @@ def create_order(database_list):
 
   orders_list.append(new_order_dict)
 
-  write_csv_file("data/orders.csv", orders_list)
+  write_csv_file("data/orders.csv", orders_list, order_fieldnames)
   
   orders_menu()
 
@@ -292,7 +330,7 @@ def update_order_status(database_list):
   print(order_status_list[status_index])
 
   orders_list[order_index]["order_status"] = order_status_list[status_index]
-  write_csv_file("data/orders.csv", orders_list)
+  write_csv_file("data/orders.csv", orders_list, order_fieldnames)
 
   orders_menu()
 
@@ -352,7 +390,7 @@ def update_order(database_list):
       index = updated_customer_obj.index(update)
       chosen_order[fieldnames[index]] = updated_customer_obj[index]
 
-  write_csv_file("data/orders.csv", orders_list)
+  write_csv_file("data/orders.csv", orders_list, order_fieldnames)
 
   orders_menu()
       
@@ -371,10 +409,10 @@ def delete_order(database_list):
   deleted_order = orders_list.pop(delete_index)
   deletion_confirmation = input(f"Are you sure you want to delete {deleted_order}? (y or n): ")
   if deletion_confirmation == "y":
-    write_csv_file("data/orders.csv", orders_list)
+    write_csv_file("data/orders.csv", orders_list, order_fieldnames)
   else:
     orders_list.append(deleted_order)
-    write_csv_file("data/orders.csv", orders_list)
+    write_csv_file("data/orders.csv", orders_list, order_fieldnames)
 
   orders_menu()
       
@@ -406,7 +444,8 @@ def main_menu(*args):
 
 # PRODUCTS MENU
 def products_menu():
-  database_list = generate_list_from_database("data/products.txt")
+  database_list = read_csv_file("data/products.csv")
+  # print(database_list)
   banner()
 
   chosen_menu_option = input("""

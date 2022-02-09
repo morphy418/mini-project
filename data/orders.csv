@@ -1,9 +1,9 @@
-customer_name,customer_address,customer_phone,selected_courier,order_status
-Alaa,23 Blah Street, 234324324,2,preparing
-Xen, 45 Etc Str, 324323243, 3, preparing
-Sara,12 Maple Street,23412424,0,cancelled
-Kriszti,8 Aylton Estate,6666666666666,3,preparing
-Steven,23 Funky Str,32425234,3,on the way
-Susie,55 Python Ave,666565655,2,preparing
-Merron,45 Stockholm Street,233245235,1,preparing
-sdfsd,sgsdgsd,345435,2,preparing
+customer name,customer address,customer phone,selected courier,order_status
+Alaa,23 Blah Street, 0141 496 0301,2,preparing
+Xen, 45 Etc Str, 0114 496 0281, 3, preparing
+Sara,12 Maple Street,0118 496 0420 ,0,cancelled
+Kriszti,8 Aylton Estate,0118 496 0721,3,preparing
+Steven,23 Funky Str,0113 496 0453,3,on the way
+Susie,55 Python Ave,0117 496 0622,2,preparing
+Merron,45 Stockholm Street,0151 496 0293,1,preparing
+sdfsd,sgsdgsd,0117 496 0167,2,preparing
