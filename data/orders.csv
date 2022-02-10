@@ -1,9 +1,13 @@
-customer name,customer address,customer phone,selected courier,order_status
-Alaa,23 Blah Street, 0141 496 0301,2,preparing
-Xen, 45 Etc Str, 0114 496 0281, 3, preparing
-Sara,12 Maple Street,0118 496 0420 ,0,cancelled
-Kriszti,8 Aylton Estate,0118 496 0721,3,preparing
-Steven,23 Funky Str,0113 496 0453,3,on the way
-Susie,55 Python Ave,0117 496 0622,2,preparing
-Merron,45 Stockholm Street,0151 496 0293,1,preparing
-sdfsd,sgsdgsd,0117 496 0167,2,preparing
+customer_name,customer_address,customer_phone,selected_courier,order_status,order_items
+Alaa,23 Blah Street, 0141 496 0301,2,preparing,
+Xen, 45 Etc Str, 0114 496 0281, 3, preparing,
+Sara,12 Maple Street,0118 496 0420 ,0,cancelled,
+Kriszti,8 Aylton Estate,0118 496 0721,3,preparing,
+Steven,23 Funky Str,0113 496 0453,3,on the way,
+Susie,55 Python Ave,0117 496 0622,2,preparing,
+Merron,45 Stockholm Street,0151 496 0293,1,preparing,
+sdfsd,sgsdgsd,0117 496 0167,2,preparing,
+dsfdsfdsfs,wgwefefwefef,2134124214124,5,preparing,"['2', '4', '5']"
+dsfdsffe,sdfdffwe,235235235325325,4,preparing,"[5, 2, 3]"
+asdsadsadsad,assdasd,234324234,3,preparing,"[3, 1, 4]"
+John,56 Lowland Street,123 3493242,4,preparing,"[3, 4, 6]"

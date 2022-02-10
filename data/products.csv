@@ -1,4 +1,4 @@
-product name,product type,product price
+product_name,product_type,product_price
 espresso,hot bev,1.6
 latte,hotbev,2.1
 cappuccino,hot bev,2.3

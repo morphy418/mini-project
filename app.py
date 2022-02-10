@@ -1,3 +1,4 @@
+from logging.handlers import RotatingFileHandler
 from os import system
 import csv
 import pprint as pp
@@ -5,24 +6,25 @@ import pprint as pp
 # FIELDNAMES
 
 order_fieldnames = [
-      "customer name", 
-      "customer address", 
-      "customer phone", 
-      "selected courier", 
-      "order status"
+      "customer_name", 
+      "customer_address", 
+      "customer_phone", 
+      "selected_courier", 
+      "order_status", 
+      "order_items"
       ]
 
 product_fieldnames = [
-      "product name", 
-      "product type", 
-      "product price", 
+      "product_name", 
+      "product_type", 
+      "product_price", 
       ]
 
 courier_fieldnames = [
-      "courier name", 
-      "courier company", 
-      "courier phone", 
-      "courier availability",
+      "courier_name", 
+      "courier_company", 
+      "courier_phone", 
+      "courier_availability",
       ]
 
 # DESIGN
@@ -123,9 +125,9 @@ def print_products(database_list):
     index = database_list.index(product)
     print(f'''
     Product ID: {index} 
-    Name: {product["product name"]} 
-    Type: {product["product type"]} 
-    Price: {product["product price"]}''')
+    Name: {product["product_name"]} 
+    Type: {product["product_type"]} 
+    Price: {product["product_price"]}''')
   
 def create_new_product(database_list):
   products_list = database_list
@@ -141,9 +143,9 @@ def create_new_product(database_list):
       break
 
   new_product = {
-    "product name" : new_product_name, 
-    "product type" : new_product_type, 
-    "product price" : new_product_price
+    "product_name" : new_product_name, 
+    "product_type" : new_product_type, 
+    "product_price" : new_product_price
   }
   
   products_list.append(new_product)
@@ -177,9 +179,9 @@ def update_product(database_list):
       break
 
   updated_product = {
-    "product name" : updated_product_name, 
-    "product type" : updated_product_type, 
-    "product price" : updated_product_price
+    "product_name" : updated_product_name, 
+    "product_type" : updated_product_type, 
+    "product_price" : updated_product_price
   }
 
   products_list[update_index] = updated_product
@@ -216,10 +218,10 @@ def print_couriers(database_list):
     index = database_list.index(courier)
     print(f'''
     Courier ID: {index} 
-    Courier name: {courier["courier name"]} 
-    Courier company: {courier["courier company"]} 
-    Courier phone: {courier["courier phone"]}
-    Courier availability: {courier["courier availability"]}''')
+    Courier name: {courier["courier_name"]} 
+    Courier company: {courier["courier_company"]} 
+    Courier phone: {courier["courier_phone"]}
+    Courier availability: {courier["courier_availability"]}''')
 
 def create_courier(database_list):
   couriers_list = database_list
@@ -235,10 +237,10 @@ def create_courier(database_list):
       break  
   
   new_courier = {
-    "courier name" : new_courier_name, 
-    "courier company" : new_courier_company, 
-    "courier phone" : new_courier_phone,
-    "courier availability" : new_courier_availability,
+    "courier_name" : new_courier_name, 
+    "courier_company" : new_courier_company, 
+    "courier_phone" : new_courier_phone,
+    "courier_availability" : new_courier_availability,
   }
   
   couriers_list.append(new_courier)
@@ -270,10 +272,10 @@ def update_courier(database_list):
       break  
 
   updated_courier = {
-    "courier name" : updated_courier_name, 
-    "courier company" : updated_courier_company, 
-    "courier phone" : updated_courier_phone,
-    "courier availability" : updated_courier_availability,
+    "courier_name" : updated_courier_name, 
+    "courier_company" : updated_courier_company, 
+    "courier_phone" : updated_courier_phone,
+    "courier_availability" : updated_courier_availability,
   }
 
   couriers_list[update_index] = updated_courier
@@ -306,7 +308,8 @@ def print_orders(database_list):
     Customer's address: {order["customer_address"]} 
     Customer's phone: {order["customer_phone"]}
     Courier: {order["selected_courier"]}
-    Order status: {order["order_status"]}''')
+    Order status: {order["order_status"]}
+    Order items: {order["order_items"]}''')
 
 def create_order(database_list):
   orders_list = database_list
@@ -314,7 +317,7 @@ def create_order(database_list):
   customer_name = input("\nPlease add the customer's name: ")
   customer_address = input("\nPlease enter the customer's address: ")
   customer_phone = input("\nPlease enter the customer's phone: ")
-  print_couriers(generate_list_from_database("data/couriers.txt"))
+  print_couriers(read_csv_file("data/couriers.csv"))
   while True:
     try:
       selected_courier = int(input("Please select from a the available couriers above by entering their ID: "))
@@ -322,8 +325,10 @@ def create_order(database_list):
       print("\nInvalid number. Please try again!")
     else:
       break  
-  
   order_status = "preparing"
+  print_products(read_csv_file("data/products.csv"))
+  order_items = input("Please select multiple products seperated by comma: ").split(",")
+  order_items_list = [int(item) for item in order_items]
 
   new_order = f'''
   New Order:
@@ -331,7 +336,8 @@ def create_order(database_list):
   Customer's address: {customer_address} 
   Customer's phone: {customer_phone}
   Courier: {selected_courier}
-  Order status: {order_status}'''
+  Order status: {order_status}
+  Order items: {order_items_list}'''
   print(new_order)
   
   new_order_dict = {
@@ -339,7 +345,8 @@ def create_order(database_list):
     "customer_address" : customer_address,
     "customer_phone" : customer_phone,
     "selected_courier" : selected_courier,
-    "order_status" : order_status
+    "order_status" : order_status,
+    "order_items" : order_items_list
     }
 
   orders_list.append(new_order_dict)
@@ -399,14 +406,17 @@ def update_order(database_list):
   updated_customer_name = input("\nPlease add the customer's name: ")
   updated_customer_address = input("\nPlease enter the customer's address: ")
   updated_customer_phone = input("\nPlease enter the customer's phone: ")
-  print_couriers(generate_list_from_database("data/couriers.txt"))
+  print_couriers(read_csv_file("data/couriers.csv"))
   while True:
     try:
       updated_selected_courier = int(input("\nPlease select from a the available couriers above by entering their ID: "))
     except ValueError as err:
       print("\nInvalid number. Please try again!")
     else:
-      break  
+      break
+  print_products(read_csv_file("data/products.csv"))
+  updated_order_items = input("Please select multiple products seperated by comma: ").split(",")
+  updated_order_items_list = [int(item) for item in updated_order_items]
 
     # order_status_list = ["preparing", "on the way", "delivered", "cancelled"]
     # for status in order_status_list:
@@ -418,7 +428,8 @@ def update_order(database_list):
     updated_customer_name, 
     updated_customer_address, 
     updated_customer_phone, 
-    updated_selected_courier, 
+    updated_selected_courier,
+    updated_order_items 
     # updated_order_status
     ]
 
@@ -426,7 +437,8 @@ def update_order(database_list):
   "customer_name", 
   "customer_address", 
   "customer_phone", 
-  "selected_courier", 
+  "selected_courier",
+  "order_items"
   # "order_status"
   ]
 
