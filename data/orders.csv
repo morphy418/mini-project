@@ -1,5 +1,4 @@
 customer_name,customer_address,customer_phone,selected_courier,order_status,order_items
-Alaa,23 Blah Street, 0141 496 0301,2,preparing,
 Xen, 45 Etc Str, 0114 496 0281, 3, preparing,
 Sara,12 Maple Street,0118 496 0420 ,0,cancelled,
 Kriszti,8 Aylton Estate,0118 496 0721,3,preparing,

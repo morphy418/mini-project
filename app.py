@@ -78,6 +78,12 @@ def update_or_skip(fieldnames, update_object, chosen_item):
       index = update_object.index(update)
       chosen_item[fieldnames[index]] = update_object[index]
 
+def deletion_confirmation(list, deletion_index):
+  item_to_delete = list[deletion_index]
+  deletion_confirmation = input(f"Are you sure you want to delete {item_to_delete}? (y or n): ")
+  if deletion_confirmation == "y":
+    list.pop(deletion_index)
+
 #MAIN MENU OPTIONS
 def exit_app():
   print("\nYou exited the app.")
@@ -206,21 +212,16 @@ def delete_product(database_list):
   
   while True:
     try:
-      delete_index = int(input("\nWhich product would you like to delete? Enter their ID number: "))
+      deletion_index = int(input("\nWhich product would you like to delete? Enter their ID number: "))
     except ValueError as err:
       print("\nInvalid number. Please try again!")
     else:
       break
 
-  deleted_product = products_list.pop(delete_index)
-  deletion_confirmation = input(f"Are you sure you want to delete {deleted_product}? (y or n): ")
-  if deletion_confirmation == "y":
-    write_csv_file("data/products.csv", products_list, product_fieldnames)
-  else:
-    products_list.append(deleted_product)
-    write_csv_file("data/products.csv", products_list, product_fieldnames)
-
-
+  deletion_confirmation(products_list, deletion_index)
+  
+  write_csv_file("data/products.csv", products_list, product_fieldnames)
+  
 # COURIER MENU OPTIONS
 
 def print_couriers(database_list):
@@ -299,13 +300,14 @@ def delete_courier(database_list):
   
   while True:
     try:
-      delete_index = int(input("\nWhich courier would you like to delete? Enter their ID number: "))
+      deletion_index = int(input("\nWhich courier would you like to delete? Enter their ID number: "))
     except ValueError as err:
       print("\nInvalid index. Please try again!")
     else:
       break
 
-  couriers_list.pop(delete_index)
+  deletion_confirmation(couriers_list, deletion_index)
+
   write_csv_file("data/couriers.csv", couriers_list, courier_fieldnames)
 
 # ORDERS MENU OPTIONS
@@ -458,19 +460,15 @@ def delete_order(database_list):
   
   while True:
     try:
-      delete_index = int(input("\nWhich order would you like to delete? Enter their ID number: "))
+      deletion_index = int(input("\nWhich order would you like to delete? Enter their ID number: "))
     except ValueError as ve:
       print("\nInvalid number. Please try again!")
     else:
       break
 
-  deleted_order = orders_list.pop(delete_index)
-  deletion_confirmation = input(f"Are you sure you want to delete {deleted_order}? (y or n): ")
-  if deletion_confirmation == "y":
-    write_csv_file("data/orders.csv", orders_list, order_fieldnames)
-  else:
-    orders_list.append(deleted_order)
-    write_csv_file("data/orders.csv", orders_list, order_fieldnames)
+  deletion_confirmation(orders_list, deletion_index)
+
+  write_csv_file("data/orders.csv", orders_list, order_fieldnames)
 
   orders_menu()
       
