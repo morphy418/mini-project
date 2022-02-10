@@ -72,6 +72,12 @@ def write_csv_file(file_name, list, fieldnames):
       # print(dict_item)
       writer.writerow(dict_item)
 
+def update_or_skip(fieldnames, update_object, chosen_item):
+  for update in update_object:
+    if update != "" and update != None:
+      index = update_object.index(update)
+      chosen_item[fieldnames[index]] = update_object[index]
+
 #MAIN MENU OPTIONS
 def exit_app():
   print("\nYou exited the app.")
@@ -161,13 +167,17 @@ def update_product(database_list):
   while True:
     try:
       update_index = int(input("\nWhich product would you like to update? Enter their ID number: "))
+      chosen_product = products_list[update_index]   
     except ValueError as err:
       print("\nInvalid number. Please try again!")
     else:
       system('clear')
       break
 
-  print(f'\nItem to update: {products_list[update_index]}\n')
+  print(f'\Product to update: {chosen_product}\n')
+
+  print("Please enter the new product data. (Hit 'Enter' if you don't want to change it): \n")
+
   updated_product_name = input("Updated Product Name: ")
   updated_product_type = input("Updated Product Type: ")
   while True:
@@ -178,13 +188,13 @@ def update_product(database_list):
     else:
       break
 
-  updated_product = {
-    "product_name" : updated_product_name, 
-    "product_type" : updated_product_type, 
-    "product_price" : updated_product_price
-  }
+  updated_product_obj = [
+    updated_product_name, 
+    updated_product_type, 
+    updated_product_price
+  ]
 
-  products_list[update_index] = updated_product
+  update_or_skip(product_fieldnames, updated_product_obj, chosen_product)
 
   write_csv_file("data/products.csv", products_list, product_fieldnames)
   
@@ -253,13 +263,14 @@ def update_courier(database_list):
 
   while True:
     try:
-      update_index = int(input("\nWhich courier would you like to update? Enter their ID number: "))
-      print(f'\Courier to update: {couriers_list[update_index]}')
+      courier_index = int(input("\nWhich courier would you like to update? Enter their ID number: "))
+      chosen_courier = couriers_list[courier_index]
     except ValueError as err:
       print("\nInvalid number. Please try again!")
     else:
       break
-
+      
+  print(f'\Courier to update: {chosen_courier}')
   updated_courier_name = input("Update courier's name: ")
   updated_courier_company = input("Update courier's company: ")
   updated_courier_phone = input("Enter the courier's phone number: ")
@@ -271,14 +282,14 @@ def update_courier(database_list):
     else:
       break  
 
-  updated_courier = {
-    "courier_name" : updated_courier_name, 
-    "courier_company" : updated_courier_company, 
-    "courier_phone" : updated_courier_phone,
-    "courier_availability" : updated_courier_availability,
-  }
+  updated_courier_obj = [
+    updated_courier_name, 
+    updated_courier_company, 
+    updated_courier_phone,
+    updated_courier_availability,
+  ]
 
-  couriers_list[update_index] = updated_courier
+  update_or_skip(courier_fieldnames, updated_courier_obj, chosen_courier)
 
   write_csv_file("data/couriers.csv", couriers_list, courier_fieldnames)
 
@@ -400,7 +411,9 @@ def update_order(database_list):
       print("\nInvalid number. Please try again!")
     else:
       break
-      
+  
+  print(f'\Order to update: {chosen_order}\n')
+
   print("Please enter the new order data. (Hit 'Enter' if you don't want to change it): \n")
   
   updated_customer_name = input("\nPlease add the customer's name: ")
@@ -433,20 +446,7 @@ def update_order(database_list):
     # updated_order_status
     ]
 
-  fieldnames = [
-  "customer_name", 
-  "customer_address", 
-  "customer_phone", 
-  "selected_courier",
-  "order_items"
-  # "order_status"
-  ]
-
-  for update in updated_customer_obj:
-    # print(f'user input: {update}\n')
-    if update != "" and update != None:
-      index = updated_customer_obj.index(update)
-      chosen_order[fieldnames[index]] = updated_customer_obj[index]
+  update_or_skip(order_fieldnames, updated_customer_obj,chosen_order)
 
   write_csv_file("data/orders.csv", orders_list, order_fieldnames)
 
