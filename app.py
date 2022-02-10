@@ -1,5 +1,6 @@
 from os import system
 import csv
+import pprint as pp
 
 # FIELDNAMES
 
@@ -73,6 +74,33 @@ def write_csv_file(file_name, list, fieldnames):
 def exit_app():
   print("\nYou exited the app.")
   print('''
+                          oooo$$$$$$$$$$$$oooo
+                      oo$$$$$$$$$$$$$$$$$$$$$$$$o
+                   oo$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$o         o$   $$ o$
+   o $ oo        o$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$o       $$ $$ $$o$
+oo $ $ "$      o$$$$$$$$$    $$$$$$$$$$$$$    $$$$$$$$$o       $$$o$$o$
+"$$$$$$o$     o$$$$$$$$$      $$$$$$$$$$$      $$$$$$$$$$o    $$$$$$$$
+  $$$$$$$    $$$$$$$$$$$      $$$$$$$$$$$      $$$$$$$$$$$$$$$$$$$$$$$
+  $$$$$$$$$$$$$$$$$$$$$$$    $$$$$$$$$$$$$    $$$$$$$$$$$$$$  """$$$
+   "$$$""""$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$     "$$$
+    $$$   o$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$     "$$$o
+   o$$"   $$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$       $$$o
+   $$$    $$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$""$$$$$$ooooo$$$$o
+  o$$$oooo$$$$$  $$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$  o$$$$$$$$$$$$$$$$$
+  $$$$$$$$"$$$$   $$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$     $$$$""""""""
+ """"       $$$$    "$$$$$$$$$$$$$$$$$$$$$$$$$$$$"      o$$$
+            "$$$o     """$$$$$$$$$$$$$$$$$$"$$"         $$$
+              $$$o          "$$""$$$$$$""""           o$$$
+               $$$$o                                o$$$"
+                "$$$$o      o$$$$$$o"$$$$o        o$$$$
+                  "$$$$$oo     ""$$$$o$$$$$o   o$$$$""
+                     ""$$$$$oooo  "$$$o$$$$$$$$$"""
+                        ""$$$$$$$oo $$$$$$$$$$
+                                """"$$$$$$$$$$$
+                                    $$$$$$$$$$$$
+                                     $$$$$$$$$$"
+                                      "$$$""""
+                                      
 ██╗  ██╗ █████╗ ██╗   ██╗███████╗     █████╗                 
 ██║  ██║██╔══██╗██║   ██║██╔════╝    ██╔══██╗                
 ███████║███████║██║   ██║█████╗      ███████║                
@@ -130,12 +158,13 @@ def update_product(database_list):
 
   while True:
     try:
-      update_index = int(input("\nWhich product would you like to update? Enter their index number: "))
+      update_index = int(input("\nWhich product would you like to update? Enter their ID number: "))
     except ValueError as err:
       print("\nInvalid number. Please try again!")
     else:
       system('clear')
       break
+
   print(f'\nItem to update: {products_list[update_index]}\n')
   updated_product_name = input("Updated Product Name: ")
   updated_product_type = input("Updated Product Type: ")
@@ -165,7 +194,7 @@ def delete_product(database_list):
   
   while True:
     try:
-      delete_index = int(input("\nWhich product would you like to delete? Enter their index number: "))
+      delete_index = int(input("\nWhich product would you like to delete? Enter their ID number: "))
     except ValueError as err:
       print("\nInvalid number. Please try again!")
     else:
@@ -183,14 +212,20 @@ def delete_product(database_list):
 # COURIER MENU OPTIONS
 
 def print_couriers(database_list):
-  for product in database_list:
-    index = database_list.index(product)
-    print(f'{index} - {product.strip()}')
+  for courier in database_list:
+    index = database_list.index(courier)
+    print(f'''
+    Courier ID: {index} 
+    Courier name: {courier["courier name"]} 
+    Courier company: {courier["courier company"]} 
+    Courier phone: {courier["courier phone"]}
+    Courier availability: {courier["courier availability"]}''')
 
 def create_courier(database_list):
   couriers_list = database_list
-  new_courier_name = input("\nPlease add a new courier name: ")
+  new_courier_name = input("\nPlease enter the courier's name: ")
   new_courier_company = input("\nPlease enter the company of the courier: ")
+  new_courier_phone = input("\nPlease enter the courier's phone number: ")
   while True:
     try:
       new_courier_availability = float(input("\nPlease enter the availability of the couriers (h/week): "))
@@ -199,20 +234,25 @@ def create_courier(database_list):
     else:
       break  
   
-  new_courier = f"name : {new_courier_name}, company : {new_courier_company}, availability : {new_courier_availability}hour/week"
+  new_courier = {
+    "courier name" : new_courier_name, 
+    "courier company" : new_courier_company, 
+    "courier phone" : new_courier_phone,
+    "courier availability" : new_courier_availability,
+  }
   
   couriers_list.append(new_courier)
 
-  write_file("data/couriers.txt", couriers_list)
+  write_csv_file("data/couriers.csv", couriers_list, courier_fieldnames)
   
 def update_courier(database_list):
   couriers_list = database_list
-  print_products(couriers_list)
+  print_couriers(couriers_list)
 
   while True:
     try:
-      update_index = int(input("\nWhich courier would you like to update? Enter their index number: "))
-      print(f'\nItem to update: {couriers_list[update_index]}')
+      update_index = int(input("\nWhich courier would you like to update? Enter their ID number: "))
+      print(f'\Courier to update: {couriers_list[update_index]}')
     except ValueError as err:
       print("\nInvalid number. Please try again!")
     else:
@@ -220,6 +260,7 @@ def update_courier(database_list):
 
   updated_courier_name = input("Update courier's name: ")
   updated_courier_company = input("Update courier's company: ")
+  updated_courier_phone = input("Enter the courier's phone number: ")
   while True:
     try:
       updated_courier_availability = float(input("Update courier's availability: "))
@@ -228,26 +269,31 @@ def update_courier(database_list):
     else:
       break  
 
-  updated_courier = f"name : {updated_courier_name}, company : {updated_courier_company}, availability : {updated_courier_availability} hour/week"
+  updated_courier = {
+    "courier name" : updated_courier_name, 
+    "courier company" : updated_courier_company, 
+    "courier phone" : updated_courier_phone,
+    "courier availability" : updated_courier_availability,
+  }
 
   couriers_list[update_index] = updated_courier
 
-  write_file("data/couriers.txt", couriers_list)
+  write_csv_file("data/couriers.csv", couriers_list, courier_fieldnames)
 
 def delete_courier(database_list):
   couriers_list = database_list
-  print_products(couriers_list)
+  print_couriers(couriers_list)
   
   while True:
     try:
-      delete_index = int(input("\nWhich courier would you like to delete? Enter their index number: "))
+      delete_index = int(input("\nWhich courier would you like to delete? Enter their ID number: "))
     except ValueError as err:
       print("\nInvalid index. Please try again!")
     else:
       break
 
   couriers_list.pop(delete_index)
-  write_file("data/couriers.txt", couriers_list)
+  write_csv_file("data/couriers.csv", couriers_list, courier_fieldnames)
 
 # ORDERS MENU OPTIONS
 
@@ -400,7 +446,7 @@ def delete_order(database_list):
   
   while True:
     try:
-      delete_index = int(input("\nWhich order would you like to delete? Enter their index number: "))
+      delete_index = int(input("\nWhich order would you like to delete? Enter their ID number: "))
     except ValueError as ve:
       print("\nInvalid number. Please try again!")
     else:
@@ -473,7 +519,7 @@ def products_menu():
 
 # COURIER MENU
 def couriers_menu():
-  database_list = generate_list_from_database("data/couriers.txt")
+  database_list = read_csv_file("data/couriers.csv")
   banner()
 
   chosen_menu_option = input("""
@@ -497,6 +543,7 @@ def couriers_menu():
   except KeyError as ke:
     print(f'{ke} is an invalid number, please try again!')
     couriers_menu()
+    system('clear')
 
 # ORDERS MENU
 def orders_menu():
