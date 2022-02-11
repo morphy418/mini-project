@@ -2,17 +2,16 @@ from file_handlers.file_management import deletion_confirmation, write_csv_file,
 from file_handlers.fieldnames import product_fieldnames
 from os import system
 
-def print_products(database_list):
-  for product in database_list:
-    index = database_list.index(product)
+def print_products(products_list):
+  for product in products_list:
+    index = products_list.index(product)
     print(f'''
     Product ID: {index} 
     Name: {product["product_name"]} 
     Type: {product["product_type"]} 
     Price: {product["product_price"]}''')
   
-def create_new_product(database_list):
-  products_list = database_list
+def create_new_product(products_list):
 
   new_product_name = input("\nPlease add a New Product: ")
   new_product_type = input("\nPlease enter the type of the new product: ")
@@ -36,8 +35,7 @@ def create_new_product(database_list):
   
   system('clear')
   
-def update_product(database_list):
-  products_list = database_list
+def update_product(products_list):
   print_products(products_list)
 
   while True:
@@ -79,8 +77,7 @@ def update_product(database_list):
   
   system('clear')
 
-def delete_product(database_list):
-  products_list = database_list
+def delete_product(products_list):
   print_products(products_list)
   
   while True:

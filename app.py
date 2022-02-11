@@ -30,7 +30,7 @@ def main_menu(*args):
 
 # PRODUCTS MENU
 def products_menu():
-  database_list = read_csv_file("data/products.csv")
+  products_list = read_csv_file("data/products.csv")
   banner()
 
   chosen_menu_option = input("""
@@ -47,7 +47,7 @@ def products_menu():
   try:
     system('clear')
     products_menu_func = products_menu_options[chosen_menu_option]
-    products_menu_func(database_list)
+    products_menu_func(products_list)
     if chosen_menu_option != "0":
       products_menu() 
     
@@ -58,7 +58,7 @@ def products_menu():
 
 # COURIER MENU
 def couriers_menu():
-  database_list = read_csv_file("data/couriers.csv")
+  couriers_list = read_csv_file("data/couriers.csv")
   banner()
 
   chosen_menu_option = input("""
@@ -75,7 +75,7 @@ def couriers_menu():
   try:
     system('clear')
     courier_menu_func = courier_menu_options[chosen_menu_option]
-    courier_menu_func(database_list)
+    courier_menu_func(couriers_list)
     if chosen_menu_option != "0":
       couriers_menu()
     
@@ -86,7 +86,7 @@ def couriers_menu():
 
 # ORDERS MENU
 def orders_menu():
-  database_list = read_csv_file("data/orders.csv")
+  orders_list = read_csv_file("data/orders.csv")
   banner()
 
   chosen_menu_option = input("""
@@ -104,7 +104,7 @@ def orders_menu():
   try:
     system('clear')
     orders_menu_func = orders_menu_options[chosen_menu_option]
-    orders_menu_func(database_list)
+    orders_menu_func(orders_list)
     if chosen_menu_option != "0":
       orders_menu() 
     

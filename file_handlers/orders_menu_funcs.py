@@ -3,9 +3,9 @@ from file_handlers.fieldnames import order_fieldnames
 from file_handlers.product_menu_funcs import print_products
 from file_handlers.couriers_menu_funcs import print_couriers
 
-def print_orders(database_list):
-  for order in database_list:
-    index = database_list.index(order)
+def print_orders(orders_list):
+  for order in orders_list:
+    index = orders_list.index(order)
     print(f'''
     Order ID: {index} 
     Customer: {order["customer_name"]} 
@@ -15,8 +15,7 @@ def print_orders(database_list):
     Order status: {order["order_status"]}
     Order items: {order["order_items"]}''')
 
-def create_order(database_list):
-  orders_list = database_list
+def create_order(orders_list):
 
   customer_name = input("\nPlease add the customer's name: ")
   customer_address = input("\nPlease enter the customer's address: ")
@@ -57,8 +56,7 @@ def create_order(database_list):
 
   write_csv_file("data/orders.csv", orders_list, order_fieldnames)
 
-def update_order_status(database_list):
-  orders_list = database_list
+def update_order_status(orders_list):
   print_orders(orders_list)
 
   while True:
@@ -87,8 +85,7 @@ def update_order_status(database_list):
   orders_list[order_index]["order_status"] = order_status_list[status_index]
   write_csv_file("data/orders.csv", orders_list, order_fieldnames)
 
-def update_order(database_list):
-  orders_list = database_list
+def update_order(orders_list):
   print_orders(orders_list)
 
   while True:

@@ -1,9 +1,9 @@
 from file_handlers.file_management import deletion_confirmation, write_csv_file, update_or_skip, deletion_confirmation
 from file_handlers.fieldnames import courier_fieldnames
 
-def print_couriers(database_list):
-  for courier in database_list:
-    index = database_list.index(courier)
+def print_couriers(couriers_list):
+  for courier in couriers_list:
+    index = couriers_list.index(courier)
     print(f'''
     Courier ID: {index} 
     Courier name: {courier["courier_name"]} 
@@ -11,8 +11,7 @@ def print_couriers(database_list):
     Courier phone: {courier["courier_phone"]}
     Courier availability: {courier["courier_availability"]}''')
 
-def create_courier(database_list):
-  couriers_list = database_list
+def create_courier(couriers_list):
   new_courier_name = input("\nPlease enter the courier's name: ")
   new_courier_company = input("\nPlease enter the company of the courier: ")
   new_courier_phone = input("\nPlease enter the courier's phone number: ")
@@ -35,8 +34,7 @@ def create_courier(database_list):
 
   write_csv_file("data/couriers.csv", couriers_list, courier_fieldnames)
   
-def update_courier(database_list):
-  couriers_list = database_list
+def update_courier(couriers_list):
   print_couriers(couriers_list)
 
   while True:
@@ -74,8 +72,7 @@ def update_courier(database_list):
 
   write_csv_file("data/couriers.csv", couriers_list, courier_fieldnames)
 
-def delete_courier(database_list):
-  couriers_list = database_list
+def delete_courier(couriers_list):
   print_couriers(couriers_list)
   
   while True:
