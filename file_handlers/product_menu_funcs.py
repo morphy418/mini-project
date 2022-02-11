@@ -20,7 +20,6 @@ def create_new_product(database_list):
     try:
       new_product_price = float(input("\nPlease enter the price of the new product: "))
     except ValueError as ve:
-      print(ve)
       print("\nInvalid number. Please try again!")
     else:
       break
@@ -61,6 +60,9 @@ def update_product(database_list):
     try:
       updated_product_price = float(input("Updated Product Price: "))
     except ValueError as ve:
+      if ve.args[0] == "could not convert string to float: ''":
+        updated_product_price = None
+        break
       print("\nInvalid number. Please try again!")
     else:
       break

@@ -2,9 +2,10 @@ order_fieldnames = [
       "customer_name", 
       "customer_address", 
       "customer_phone", 
-      "selected_courier", 
+      "selected_courier",
+      "order_items", 
       "order_status", 
-      "order_items"
+      
       ]
 
 product_fieldnames = [

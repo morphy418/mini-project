@@ -1,7 +1,7 @@
 from file_handlers.file_management import deletion_confirmation, read_csv_file, write_csv_file, update_or_skip, deletion_confirmation
 from file_handlers.fieldnames import order_fieldnames
 from file_handlers.product_menu_funcs import print_products
-from file_handlers.courier_menu_funcs import print_couriers
+from file_handlers.couriers_menu_funcs import print_couriers
 
 def print_orders(database_list):
   for order in database_list:
@@ -95,13 +95,12 @@ def update_order(database_list):
     try:
       order_index = int(input("\nWhich order status would you like to update? Enter their ID number: "))
       chosen_order = orders_list[order_index]
-      print(f'\nOrder to update: {chosen_order}')
-    except ValueError as err:
+    except ValueError as ve:
       print("\nInvalid number. Please try again!")
     else:
       break
   
-  print(f'\Order to update: {chosen_order}\n')
+  print(f'\nOrder to update: {chosen_order}\n')
 
   print("Please enter the new order data. (Hit 'Enter' if you don't want to change it): \n")
   
@@ -112,7 +111,11 @@ def update_order(database_list):
   while True:
     try:
       updated_selected_courier = int(input("\nPlease select from a the available couriers above by entering their ID: "))
-    except ValueError as err:
+    except ValueError as ve:
+      print(ve.args[0])
+      if ve.args[0] == "invalid literal for int() with base 10: ''":
+        updated_selected_courier = None
+        break
       print("\nInvalid number. Please try again!")
     else:
       break
@@ -131,7 +134,7 @@ def update_order(database_list):
     updated_customer_address, 
     updated_customer_phone, 
     updated_selected_courier,
-    updated_order_items 
+    updated_order_items_list 
     # updated_order_status
     ]
 

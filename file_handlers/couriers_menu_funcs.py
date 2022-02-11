@@ -55,7 +55,10 @@ def update_courier(database_list):
   while True:
     try:
       updated_courier_availability = float(input("Update courier's availability: "))
-    except ValueError as err:
+    except ValueError as ve:
+      if ve.args[0] == "could not convert string to float: ''":
+        updated_courier_availability = None
+        break
       print("\nInvalid number. Please try again!")
     else:
       break  

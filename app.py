@@ -1,5 +1,5 @@
 from file_handlers.product_menu_funcs import *
-from file_handlers.courier_menu_funcs import *
+from file_handlers.couriers_menu_funcs import *
 from file_handlers.orders_menu_funcs import *
 from file_handlers.designs import *
 from os import system

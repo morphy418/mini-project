@@ -1,13 +1,13 @@
-customer_name,customer_address,customer_phone,selected_courier,order_status,order_items
-Xen, 45 Etc Str, 0114 496 0281, 3, preparing,
-Sara,12 Maple Street,0118 496 0420 ,0,cancelled,
-Kriszti,8 Aylton Estate,0118 496 0721,3,preparing,
-Steven,23 Funky Str,0113 496 0453,3,on the way,
-Susie,55 Python Ave,0117 496 0622,2,preparing,
-Merron,45 Stockholm Street,0151 496 0293,1,preparing,
-sdfsd,sgsdgsd,0117 496 0167,2,preparing,
-dsfdsfdsfs,wgwefefwefef,2134124214124,5,preparing,"['2', '4', '5']"
-dsfdsffe,sdfdffwe,235235235325325,4,preparing,"[5, 2, 3]"
-Zoltan,assdasd,234324234,4,"['3', '5', '6']","[3, 1, 4]"
-John,56 Lowland Street,123 3493242,4,cancelled,"[3, 4, 6]"
-John,45 Riverside Lane,0734 345 9823,4,preparing,"[2, 4, 7]"
+customer_name,customer_address,customer_phone,selected_courier,order_items,order_status
+Xen, 45 Etc Str, 0114 496 0281, 3,"[3, 5, 7]", preparing
+Sara,12 Maple Street,0118 496 0420 ,0,,cancelled
+Kriszti,8 Aylton Estate,0118 496 0721,3,,preparing
+Steven,23 Funky Str,0113 496 0453,3,,on the way
+Susie,55 Python Ave,0117 496 0622,2,,preparing
+Merron,45 Stockholm Street,0151 496 0293,1,,preparing
+sdfsd,sgsdgsd,0117 496 0167,2,,preparing
+Alex,56 Edinburgh Street,0781 234 6235,4,,"[2, 5, 2]"
+dsfdsffe,sdfdffwe,235235235325325,4,"[5, 2, 3]",preparing
+Zoltan,assdasd,234324234,4,"[3, 1, 4]","['3', '5', '6']"
+John,56 Lowland Street,123 3493242,4,"[3, 4, 6]",cancelled
+John,45 Riverside Lane,0734 345 9823,4,"[3, 5, 6]",preparing
