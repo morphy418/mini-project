@@ -12,9 +12,7 @@ def write_csv_file(file_name, list, fieldnames):
   with open(file_name, "w", newline='') as database_file:
     writer = csv.DictWriter(database_file, fieldnames=fieldnames)
     writer.writeheader()
-    for dict_item in list:
-      # print(dict_item)
-      writer.writerow(dict_item)
+    writer.writerows(list)
 
 def update_or_skip(fieldnames, update_object, chosen_item):
   for update in update_object:

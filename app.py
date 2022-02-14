@@ -2,6 +2,8 @@ from file_handlers.product_menu_funcs import *
 from file_handlers.couriers_menu_funcs import *
 from file_handlers.orders_menu_funcs import *
 from file_handlers.designs import *
+from src.db.db import read_products_db
+from file_handlers.fieldnames import *
 from os import system
 
 def main_menu(*args):
@@ -30,7 +32,8 @@ def main_menu(*args):
 
 # PRODUCTS MENU
 def products_menu():
-  products_list = read_csv_file("data/products.csv")
+  # products_list = read_csv_file("data/products.csv")
+  products_list = read_products_db("products", product_fieldnames)
   banner()
 
   chosen_menu_option = input("""
