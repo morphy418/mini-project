@@ -1,11 +1,11 @@
 from file_handlers.file_management import deletion_confirmation, write_csv_file, update_or_skip, deletion_confirmation
 from file_handlers.fieldnames import courier_fieldnames
+from src.db.db import insert_new_item_into_db
 
 def print_couriers(couriers_list):
   for courier in couriers_list:
-    index = couriers_list.index(courier)
     print(f'''
-    Courier ID: {index} 
+    Courier ID: {courier[courier_id]} 
     Courier name: {courier["courier_name"]} 
     Courier company: {courier["courier_company"]} 
     Courier phone: {courier["courier_phone"]}
@@ -33,6 +33,7 @@ def create_courier(couriers_list):
   couriers_list.append(new_courier)
 
   write_csv_file("data/couriers.csv", couriers_list, courier_fieldnames)
+  insert_new_item_into_db("couriers", courier_fieldnames, new_courier)
   
 def update_courier(couriers_list):
   print_couriers(couriers_list)

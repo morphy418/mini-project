@@ -1,12 +1,12 @@
 from file_handlers.file_management import deletion_confirmation, write_csv_file, update_or_skip, deletion_confirmation
 from file_handlers.fieldnames import product_fieldnames
+from src.db.db import insert_new_item_into_db
 from os import system
 
 def print_products(products_list):
   for product in products_list:
-    index = products_list.index(product)
     print(f'''
-    Product ID: {index} 
+    Product ID: {product["product_id"]} 
     Name: {product["product_name"]} 
     Type: {product["product_type"]} 
     Price: {product["product_price"]}''')
@@ -31,6 +31,7 @@ def create_new_product(products_list):
   
   products_list.append(new_product)
 
+  insert_new_item_into_db("products_test", product_fieldnames, new_product)
   write_csv_file("data/products.csv", products_list, product_fieldnames)
   
   system('clear')
