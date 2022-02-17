@@ -5,7 +5,7 @@ from src.db.db import insert_new_item_into_db
 def print_couriers(couriers_list):
   for courier in couriers_list:
     print(f'''
-    Courier ID: {courier[courier_id]} 
+    Courier ID: {courier["courier_id"]} 
     Courier name: {courier["courier_name"]} 
     Courier company: {courier["courier_company"]} 
     Courier phone: {courier["courier_phone"]}

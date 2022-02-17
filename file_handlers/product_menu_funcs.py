@@ -31,8 +31,8 @@ def create_new_product(products_list):
   
   products_list.append(new_product)
 
-  insert_new_item_into_db("products_test", product_fieldnames, new_product)
   write_csv_file("data/products.csv", products_list, product_fieldnames)
+  insert_new_item_into_db("products", product_fieldnames, new_product)
   
   system('clear')
   

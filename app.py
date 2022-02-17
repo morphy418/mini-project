@@ -63,6 +63,7 @@ def products_menu():
 def couriers_menu():
   couriers_list = read_list_from_db("couriers", courier_fieldnames)
   banner()
+  print(couriers_list)
 
   chosen_menu_option = input("""
   Couriers Menu Options:

@@ -72,13 +72,14 @@ def insert_new_item_into_db(table, fieldnames, item):
   # A cursor is an object that represents a DB cursor, which is used to manage the context of a fetch operation.
   cursor = connection.cursor()
 
-  fieldnames.pop(0)
-  selection = ','.join(fieldnames)
-  number_of_fieldnames = len(fieldnames)
+  no_id_fieldnames = fieldnames[:]
+  no_id_fieldnames.pop(0)
+  selection = ','.join(no_id_fieldnames)
+  number_of_fieldnames = len(no_id_fieldnames)
 
   val = ()
   for index in range(number_of_fieldnames):
-    val += (item[fieldnames[index]],)
+    val += (item[no_id_fieldnames[index]],)
 
   sql = f"INSERT INTO {table}({selection}) VALUES ({(number_of_fieldnames-1)*'%s,'}%s)"
     

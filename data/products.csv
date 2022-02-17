@@ -1,9 +1,11 @@
-product_name,product_type,product_price
-espresso,hot bev,1.6
-latte,hotbev,2.1
-cappuccino,hot bev,2.3
-orange juice,juice,2.2
-grapefruit juice, juice,2.2
-croissant,Pastry,1.3
-pain au chocolat,pastry,1.6
-earl grey,hot bev,1.7
+product_id,product_name,product_type,product_price
+1,espresso,hot bev,2
+2,latte,hot bev,2
+3,espresso,hot bev,2
+4,cappuccino,hot bev,2
+5,orange juice,juice,2
+6,grapefruit juice,juice,2
+7,croissant,hot bev,2
+8,pain au chocolat,pastry,2
+9,earl grey,hot bev,2
+,breakfast tea,hot bev,1.8
