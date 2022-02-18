@@ -4,6 +4,12 @@ import pymysql
 import os
 from dotenv import load_dotenv
 
+load_dotenv()
+host = os.environ.get("mysql_host")
+user = os.environ.get("mysql_user")
+password = os.environ.get("mysql_pass")
+database = os.environ.get("mysql_db")
+
 # product_fieldnames = [
 #       "product_id",
 #       "product_name", 
@@ -11,12 +17,20 @@ from dotenv import load_dotenv
 #       "product_price", 
 #       ]
 
+# products_list = [
+#   {'product_name': 'espresso', 'product_type': 'hot bev', 'product_price': 2.2}, 
+#   {'product_name': 'latte', 'product_type': 'hot bev', 'product_price': 2.2}, 
+#   {'product_name': 'espresso', 'product_type': 'hot bev', 'product_price': 2.2}, 
+#   {'product_name': 'cappuccino', 'product_type': 'hot bev', 'product_price': 2.2}, 
+#   {'product_name': 'orange juice', 'product_type': 'juice', 'product_price': 2.2}, 
+#   {'product_name': 'grapefruit juice', 'product_type': 'juice', 'product_price': 2.2}, 
+#   {'product_name': 'croissant', 'product_type': 'hot bev', 'product_price': 2.2}, 
+#   {'product_name': 'ain au chocolat', 'product_type': 'pastry', 'product_price': 2.2}, 
+#   {'product_name': 'earl grey', 'product_type': 'hot bev', 'product_price': 2.2}]
+
+# item = {'product_name': 'espresso', 'product_type': 'hot bev', 'product_price': 2.2}
+
 def read_list_from_db(table, fieldnames):
-  load_dotenv()
-  host = os.environ.get("mysql_host")
-  user = os.environ.get("mysql_user")
-  password = os.environ.get("mysql_pass")
-  database = os.environ.get("mysql_db")
 
   connection = pymysql.connect(host=host,
                               user=user,
@@ -41,26 +55,8 @@ def read_list_from_db(table, fieldnames):
   connection.close()
   return data
 
-# products_list = [
-#   {'product_name': 'espresso', 'product_type': 'hot bev', 'product_price': 2.2}, 
-#   {'product_name': 'latte', 'product_type': 'hot bev', 'product_price': 2.2}, 
-#   {'product_name': 'espresso', 'product_type': 'hot bev', 'product_price': 2.2}, 
-#   {'product_name': 'cappuccino', 'product_type': 'hot bev', 'product_price': 2.2}, 
-#   {'product_name': 'orange juice', 'product_type': 'juice', 'product_price': 2.2}, 
-#   {'product_name': 'grapefruit juice', 'product_type': 'juice', 'product_price': 2.2}, 
-#   {'product_name': 'croissant', 'product_type': 'hot bev', 'product_price': 2.2}, 
-#   {'product_name': 'ain au chocolat', 'product_type': 'pastry', 'product_price': 2.2}, 
-#   {'product_name': 'earl grey', 'product_type': 'hot bev', 'product_price': 2.2}]
-
-# item = {'product_name': 'espresso', 'product_type': 'hot bev', 'product_price': 2.2}
 
 def insert_new_item_into_db(table, fieldnames, item):
-
-  load_dotenv()
-  host = os.environ.get("mysql_host")
-  user = os.environ.get("mysql_user")
-  password = os.environ.get("mysql_pass")
-  database = os.environ.get("mysql_db")
 
   connection = pymysql.connect(host=host,
                               user=user,
@@ -88,12 +84,6 @@ def insert_new_item_into_db(table, fieldnames, item):
   connection.close()
 
 def update_item_in_db(table, fieldnames, item, item_id):
-
-  load_dotenv()
-  host = os.environ.get("mysql_host")
-  user = os.environ.get("mysql_user")
-  password = os.environ.get("mysql_pass")
-  database = os.environ.get("mysql_db")
 
   connection = pymysql.connect(host=host,
                               user=user,

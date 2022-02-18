@@ -41,10 +41,10 @@ def update_product(products_list):
 
   while True:
     try:
-      update_id = int(input("\nWhich product would you like to update? Enter their ID number: "))
+      updated_product_id = int(input("\nWhich product would you like to update? Enter their ID number: "))
 
       for product in products_list:
-        if product["product_id"] == update_id:
+        if product["product_id"] == updated_product_id:
           chosen_product = product
 
       print(chosen_product)
@@ -78,8 +78,8 @@ def update_product(products_list):
   ]
 
   updated_product = update_or_skip(product_fieldnames, updated_product_obj, chosen_product)
-  print(updated_product)
-  update_item_in_db("products", product_fieldnames, updated_product, update_id )
+ 
+  update_item_in_db("products", product_fieldnames, updated_product, updated_product_id)
   # write_csv_file("data/products.csv", products_list, product_fieldnames)
   
   system('clear')
