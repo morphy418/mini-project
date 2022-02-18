@@ -1,6 +1,6 @@
 from file_handlers.file_management import deletion_confirmation, write_csv_file, update_or_skip, deletion_confirmation
 from file_handlers.fieldnames import product_fieldnames
-from src.db.db import insert_new_item_into_db
+from src.db.db import insert_new_item_into_db, update_item_in_db
 from os import system
 
 def print_products(products_list):
@@ -41,8 +41,13 @@ def update_product(products_list):
 
   while True:
     try:
-      update_index = int(input("\nWhich product would you like to update? Enter their ID number: "))
-      chosen_product = products_list[update_index]   
+      update_id = int(input("\nWhich product would you like to update? Enter their ID number: "))
+
+      for product in products_list:
+        if product["product_id"] == update_id:
+          chosen_product = product
+
+      print(chosen_product)
     except ValueError as err:
       print("\nInvalid number. Please try again!")
     else:
@@ -72,9 +77,10 @@ def update_product(products_list):
     updated_product_price
   ]
 
-  update_or_skip(product_fieldnames, updated_product_obj, chosen_product)
-
-  write_csv_file("data/products.csv", products_list, product_fieldnames)
+  updated_product = update_or_skip(product_fieldnames, updated_product_obj, chosen_product)
+  print(updated_product)
+  update_item_in_db("products", product_fieldnames, updated_product, update_id )
+  # write_csv_file("data/products.csv", products_list, product_fieldnames)
   
   system('clear')
 

@@ -8,4 +8,6 @@ product_id,product_name,product_type,product_price
 7,croissant,hot bev,2
 8,pain au chocolat,pastry,2
 9,earl grey,hot bev,2
-,breakfast tea,hot bev,1.8
+10,breakfast tea,hot bev,2
+11,Evian,cold bev,2
+,Coke Zero,cold bev,1.8

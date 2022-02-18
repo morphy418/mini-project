@@ -10,7 +10,9 @@
 ## persist my data
   COMPLETED
 ## STRETCH update or delete a product, order, or courier
-  COMPLETED
+  COMPLETED with CSV
+
+  Delete product/order/courier
 ## BONUS list orders by status or courier
   
 ## BONUS track my product inventory

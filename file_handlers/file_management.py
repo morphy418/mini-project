@@ -14,11 +14,12 @@ def write_csv_file(file_name, list, fieldnames):
     writer.writeheader()
     writer.writerows(list)
 
-def update_or_skip(fieldnames, update_object, chosen_item):
+def update_or_skip(fieldnames, update_object, updated_item):
   for update in update_object:
-    if update != "" and update != None:
+    if update:
       index = update_object.index(update)
-      chosen_item[fieldnames[index]] = update_object[index]
+      updated_item[fieldnames[index+1]] = update_object[index]
+  return updated_item
 
 def deletion_confirmation(list, deletion_index):
   item_to_delete = list[deletion_index]
