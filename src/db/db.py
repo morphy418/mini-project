@@ -114,3 +114,21 @@ def update_item_in_db(table, fieldnames, item, item_id):
   connection.commit()
   cursor.close()
   connection.close()
+
+def delete_item_from_db(table, fieldnames, item_id, item_deleted):
+  connection = pymysql.connect(host=host,
+                              user=user,
+                              password=password,
+                              database=database,
+                              )
+
+  cursor = connection.cursor()
+
+  sql = f"DELETE FROM {table} WHERE {fieldnames[0]} = {item_id}"
+
+  print(f"{item_deleted} has been successfully deleted from database.")
+  cursor.execute(sql)
+
+  connection.commit()
+  cursor.close()
+  connection.close()

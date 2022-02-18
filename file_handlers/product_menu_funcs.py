@@ -1,6 +1,6 @@
 from file_handlers.file_management import deletion_confirmation, write_csv_file, update_or_skip, deletion_confirmation
 from file_handlers.fieldnames import product_fieldnames
-from src.db.db import insert_new_item_into_db, update_item_in_db
+from src.db.db import delete_item_from_db, insert_new_item_into_db, update_item_in_db, delete_item_from_db
 from os import system
 
 def print_products(products_list):
@@ -89,13 +89,14 @@ def delete_product(products_list):
   
   while True:
     try:
-      deletion_index = int(input("\nWhich product would you like to delete? Enter their ID number: "))
+      deletion_id = int(input("\nWhich product would you like to delete? Enter their ID number: "))
     except ValueError as err:
       print("\nInvalid number. Please try again!")
     else:
       break
 
-  deletion_confirmation(products_list, deletion_index)
-  
-  write_csv_file("data/products.csv", products_list, product_fieldnames)
+  product_deleted = deletion_confirmation(products_list, deletion_id, "product")
+  delete_item_from_db("products", product_fieldnames, deletion_id, product_deleted)
+
+  # write_csv_file("data/products.csv", products_list_deleted, product_fieldnames)
   

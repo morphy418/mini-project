@@ -21,11 +21,17 @@ def update_or_skip(fieldnames, update_object, updated_item):
       updated_item[fieldnames[index+1]] = update_object[index]
   return updated_item
 
-def deletion_confirmation(list, deletion_index):
-  item_to_delete = list[deletion_index]
+def deletion_confirmation(list, deletion_id, item_type):
+  for item in list:
+    if item[f"{item_type}_id"] == deletion_id:
+      item_to_delete = item
+      index_of_item = list.index(item)
+
   deletion_confirmation = input(f"Are you sure you want to delete {item_to_delete}? (y or n): ")
   if deletion_confirmation == "y":
-    list.pop(deletion_index)
+    
+    deleted_item = list.pop(index_of_item)
+    return deleted_item
 
 # def read_file(file_name):
 #   with open(file_name, "r") as open_file:

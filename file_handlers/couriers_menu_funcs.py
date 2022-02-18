@@ -1,6 +1,6 @@
 from file_handlers.file_management import deletion_confirmation, write_csv_file, update_or_skip, deletion_confirmation
 from file_handlers.fieldnames import courier_fieldnames
-from src.db.db import insert_new_item_into_db, update_item_in_db
+from src.db.db import delete_item_from_db, insert_new_item_into_db, update_item_in_db
 
 def print_couriers(couriers_list):
   for courier in couriers_list:
@@ -81,12 +81,13 @@ def delete_courier(couriers_list):
   
   while True:
     try:
-      deletion_index = int(input("\nWhich courier would you like to delete? Enter their ID number: "))
+      deletion_id = int(input("\nWhich courier would you like to delete? Enter their ID number: "))
     except ValueError as err:
       print("\nInvalid index. Please try again!")
     else:
       break
 
-  deletion_confirmation(couriers_list, deletion_index)
+  courier_deleted = deletion_confirmation(couriers_list, deletion_id, "courier")
+  delete_item_from_db("couriers", courier_fieldnames, deletion_id, courier_deleted)
 
   write_csv_file("data/couriers.csv", couriers_list, courier_fieldnames)
