@@ -55,7 +55,6 @@ def read_list_from_db(table, fieldnames):
   connection.close()
   return data
 
-
 def insert_new_item_into_db(table, fieldnames, item):
 
   connection = pymysql.connect(host=host,
@@ -93,21 +92,14 @@ def update_item_in_db(table, fieldnames, item, item_id):
 
   cursor = connection.cursor()
 
-  # no_id_fieldnames = fieldnames[:]
-  # no_id_fieldnames.pop(0)
-  # selection = ','.join(fieldnames)
-  number_of_fieldnames = len(fieldnames)
-
-  # for index in range(number_of_fieldnames-1):
-  #   set_string += f"{fieldnames[index+1]} = {item[fieldnames[index+1]]},"
   set_string = ""
 
   for key, value in item.items():
-    set_string += f"{key} = '{value}', "
+    set_string += f"{key} = '{value}',"
   
-  print(set_string[:-2])
+  print(set_string[:-1])
 
-  sql = f"UPDATE {table} set {set_string[:-2]} where {fieldnames[0]} = {item_id} "
+  sql = f"UPDATE {table} set {set_string[:-1]} where {fieldnames[0]} = {item_id} "
     
   cursor.execute(sql)
 
@@ -116,6 +108,8 @@ def update_item_in_db(table, fieldnames, item, item_id):
   connection.close()
 
 def delete_item_from_db(table, fieldnames, item_id, item_deleted):
+
+
   connection = pymysql.connect(host=host,
                               user=user,
                               password=password,
@@ -131,4 +125,71 @@ def delete_item_from_db(table, fieldnames, item_id, item_deleted):
 
   connection.commit()
   cursor.close()
+  connection.close()
+
+def read_list_from_orders_table(fieldnames):
+  connection = pymysql.connect(host=host,
+                              user=user,
+                              password=password,
+                              database=database,)
+  cursor = connection.cursor()
+  
+  # selection = ','.join(fieldnames)
+
+  cursor.execute(f'''
+  SELECT orders.order_id, orders.customer_name, orders.customer_address, orders.customer_phone, orders.selected_courier, orders.order_status, products.product_name
+  FROM orders
+  JOIN products_on_orders ON orders.order_id = products_on_orders.order_id
+  JOIN products ON products_on_orders.product_id = products.product_id''')
+  rows = cursor.fetchall()
+
+  data = []
+
+  for row in rows:
+    new_item = {}
+    for index, fieldname in enumerate(fieldnames):
+      new_item[fieldname] = row[index]
+    data.append(new_item)
+
+  cursor.close()
+  connection.close()
+  return data
+
+def insert_new_order_into_db(fieldnames, item):
+
+  connection = pymysql.connect(host=host,
+                              user=user,
+                              password=password,
+                              database=database,
+                              )
+
+  cursor = connection.cursor()
+
+  no_id_fieldnames = fieldnames[1:-1]
+  print(no_id_fieldnames)
+  selection = ','.join(no_id_fieldnames)
+  number_of_fieldnames = len(no_id_fieldnames)
+
+  val1 = ()
+  for index in range(number_of_fieldnames):
+    val1 += (item[no_id_fieldnames[index]],)
+
+  sql1 = f"INSERT INTO orders ({selection}) VALUES ({(number_of_fieldnames-1)*'%s,'}%s);"
+    
+  cursor.execute(sql1, val1)
+  connection.commit()
+  order_id = cursor.lastrowid
+  cursor.close()
+
+  val2 = []
+  for item in item["order_items"]:
+    val2.append((order_id, item))
+
+  cursor = connection.cursor()
+  sql2 = f"INSERT INTO products_on_orders (order_id, product_id) values (%s, %s)"
+  
+  cursor.executemany(sql2, val2)
+  connection.commit()
+  cursor.close()
+  
   connection.close()

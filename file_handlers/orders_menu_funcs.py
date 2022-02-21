@@ -1,13 +1,13 @@
 from file_handlers.file_management import deletion_confirmation, read_csv_file, write_csv_file, update_or_skip, deletion_confirmation
-from file_handlers.fieldnames import order_fieldnames
+from file_handlers.fieldnames import order_fieldnames, courier_fieldnames, product_fieldnames
 from file_handlers.product_menu_funcs import print_products
 from file_handlers.couriers_menu_funcs import print_couriers
+from src.db.db import insert_new_order_into_db, read_list_from_db
 
 def print_orders(orders_list):
   for order in orders_list:
-    index = orders_list.index(order)
     print(f'''
-    Order ID: {index} 
+    Order ID: {order["order_id"]} 
     Customer: {order["customer_name"]} 
     Customer's address: {order["customer_address"]} 
     Customer's phone: {order["customer_phone"]}
@@ -20,7 +20,7 @@ def create_order(orders_list):
   customer_name = input("\nPlease add the customer's name: ")
   customer_address = input("\nPlease enter the customer's address: ")
   customer_phone = input("\nPlease enter the customer's phone: ")
-  print_couriers(read_csv_file("data/couriers.csv"))
+  print_couriers(read_list_from_db("couriers", courier_fieldnames))
   while True:
     try:
       selected_courier = int(input("Please select from a the available couriers above by entering their ID: "))
@@ -29,8 +29,8 @@ def create_order(orders_list):
     else:
       break  
   order_status = "preparing"
-  print_products(read_csv_file("data/products.csv"))
-  order_items = input("Please select multiple products seperated by comma: ").split(",")
+  print_products(read_list_from_db("products", product_fieldnames))
+  order_items = input("Please select multiple product IDs seperated by comma: ").split(",")
   order_items_list = [int(item) for item in order_items]
 
   new_order = f'''
@@ -54,7 +54,8 @@ def create_order(orders_list):
 
   orders_list.append(new_order_dict)
 
-  write_csv_file("data/orders.csv", orders_list, order_fieldnames)
+  insert_new_order_into_db(order_fieldnames, new_order_dict)
+  # write_csv_file("data/orders.csv", orders_list, order_fieldnames)
 
 def update_order_status(orders_list):
   print_orders(orders_list)

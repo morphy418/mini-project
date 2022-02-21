@@ -2,7 +2,7 @@ from file_handlers.product_menu_funcs import *
 from file_handlers.couriers_menu_funcs import *
 from file_handlers.orders_menu_funcs import *
 from file_handlers.designs import *
-from src.db.db import read_list_from_db
+from src.db.db import read_list_from_db, read_list_from_orders_table
 from file_handlers.fieldnames import *
 from os import system
 
@@ -90,7 +90,9 @@ def couriers_menu():
 
 # ORDERS MENU
 def orders_menu():
-  orders_list = read_csv_file("data/orders.csv")
+  # orders_list = read_csv_file("data/orders.csv")
+  orders_list = read_list_from_orders_table(order_fieldnames)
+  print(orders_list)
   banner()
 
   chosen_menu_option = input("""
