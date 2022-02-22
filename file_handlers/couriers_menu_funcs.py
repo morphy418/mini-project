@@ -1,15 +1,15 @@
 from file_handlers.file_management import deletion_confirmation, write_csv_file, update_or_skip, deletion_confirmation
 from file_handlers.fieldnames import courier_fieldnames
 from src.db.db import delete_item_from_db, insert_new_item_into_db, update_item_in_db
+from prettytable import PrettyTable
 
 def print_couriers(couriers_list):
-  for courier in couriers_list:
-    print(f'''
-    Courier ID: {courier["courier_id"]} 
-    Courier name: {courier["courier_name"]} 
-    Courier company: {courier["courier_company"]} 
-    Courier phone: {courier["courier_phone"]}
-    Courier availability: {courier["courier_availability"]}''')
+  table = PrettyTable()
+  for c in courier_fieldnames:
+    table.add_column(c, [])
+  for dct in couriers_list:
+    table.add_row([dct.get(c, "") for c in courier_fieldnames])
+  print(table)
 
 def create_courier(couriers_list):
   new_courier_name = input("\nPlease enter the courier's name: ")
@@ -50,6 +50,8 @@ def update_courier(couriers_list):
       break
       
   print(f'\nCourier to update: {chosen_courier}')
+  print("Please enter the new courier data. (Hit 'Enter' if you don't want to change it): \n")
+
   updated_courier_name = input("Update courier's name: ")
   updated_courier_company = input("Update courier's company: ")
   updated_courier_phone = input("Enter the courier's phone number: ")
@@ -64,14 +66,14 @@ def update_courier(couriers_list):
     else:
       break  
 
-  updated_courier_obj = [
+  updated_courier = [
     updated_courier_name, 
     updated_courier_company, 
     updated_courier_phone,
     updated_courier_availability,
   ]
 
-  updated_courier = update_or_skip(courier_fieldnames, updated_courier_obj, chosen_courier)
+  updated_courier = update_or_skip(courier_fieldnames, updated_courier, chosen_courier)
   update_item_in_db("couriers", courier_fieldnames, updated_courier, updated_courier_id)
 
   # write_csv_file("data/couriers.csv", couriers_list, courier_fieldnames)

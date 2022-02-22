@@ -1,15 +1,18 @@
+from pprint import PrettyPrinter
 from file_handlers.file_management import deletion_confirmation, write_csv_file, update_or_skip, deletion_confirmation
 from file_handlers.fieldnames import product_fieldnames
 from src.db.db import delete_item_from_db, insert_new_item_into_db, update_item_in_db, delete_item_from_db
 from os import system
+from prettytable import PrettyTable
 
 def print_products(products_list):
-  for product in products_list:
-    print(f'''
-    Product ID: {product["product_id"]} 
-    Name: {product["product_name"]} 
-    Type: {product["product_type"]} 
-    Price: {product["product_price"]}''')
+  table = PrettyTable()
+  for c in product_fieldnames:
+    table.add_column(c, [])
+  for dct in products_list:
+    table.add_row([dct.get(c, "") for c in product_fieldnames])
+
+  print(table)
   
 def create_new_product(products_list):
 
@@ -47,14 +50,15 @@ def update_product(products_list):
         if product["product_id"] == updated_product_id:
           chosen_product = product
 
-      print(chosen_product)
+      # print_products(product)
     except ValueError as err:
       print("\nInvalid number. Please try again!")
     else:
       system('clear')
       break
 
-  print(f'\Product to update: {chosen_product}\n')
+  # print(f'\Product to update: {chosen_product}\n')
+  print_products(chosen_product)
 
   print("Please enter the new product data. (Hit 'Enter' if you don't want to change it): \n")
 
@@ -71,13 +75,13 @@ def update_product(products_list):
     else:
       break
 
-  updated_product_obj = [
+  updated_product = [
     updated_product_name, 
     updated_product_type, 
     updated_product_price
   ]
 
-  updated_product = update_or_skip(product_fieldnames, updated_product_obj, chosen_product)
+  updated_product = update_or_skip(product_fieldnames, updated_product, chosen_product)
  
   update_item_in_db("products", product_fieldnames, updated_product, updated_product_id)
   # write_csv_file("data/products.csv", products_list, product_fieldnames)

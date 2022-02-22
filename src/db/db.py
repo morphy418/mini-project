@@ -83,7 +83,6 @@ def insert_new_item_into_db(table, fieldnames, item):
   connection.close()
 
 def update_item_in_db(table, fieldnames, item, item_id):
-
   connection = pymysql.connect(host=host,
                               user=user,
                               password=password,
@@ -156,7 +155,6 @@ def read_list_from_orders_table(fieldnames):
   return data
 
 def insert_new_order_into_db(fieldnames, item):
-
   connection = pymysql.connect(host=host,
                               user=user,
                               password=password,
@@ -192,4 +190,45 @@ def insert_new_order_into_db(fieldnames, item):
   connection.commit()
   cursor.close()
   
+  connection.close()
+
+def update_order_in_db(fieldnames, order, order_id):
+  print(f'Order {order}')
+  connection = pymysql.connect(host=host,
+                              user=user,
+                              password=password,
+                              database=database,
+                              )
+
+  cursor = connection.cursor()
+
+  set_string = ""
+
+  for key, value in order.items():
+    if key != "order_items":
+      set_string += f"{key} = '{value}',"
+    else: 
+      order_items = value
+      print(f"Order items: {order_items}")
+  
+  print(f"Set String: {set_string[:-1]}")
+
+  sql = f"UPDATE orders set {set_string[:-1]} where {fieldnames[0]} = {order_id} "
+  cursor.execute(sql)
+  connection.commit()
+  cursor.close()
+
+  cursor = connection.cursor()
+  sql2 = f"DELETE FROM products_on_orders WHERE order_id = {order_id}";
+
+  val3 = []
+  for item in order["order_items"]:
+    val3.append((order_id, item))
+
+  cursor = connection.cursor()
+  sql3 = f"INSERT INTO products_on_orders (order_id, product_id) values (%s, %s)"
+  
+  cursor.executemany(sql3, val3)
+  connection.commit()
+  cursor.close()
   connection.close()

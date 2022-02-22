@@ -2,18 +2,16 @@ from file_handlers.file_management import deletion_confirmation, read_csv_file, 
 from file_handlers.fieldnames import order_fieldnames, courier_fieldnames, product_fieldnames
 from file_handlers.product_menu_funcs import print_products
 from file_handlers.couriers_menu_funcs import print_couriers
-from src.db.db import insert_new_order_into_db, read_list_from_db
+from src.db.db import insert_new_order_into_db, read_list_from_db, update_order_in_db
+from prettytable import PrettyTable
 
 def print_orders(orders_list):
-  for order in orders_list:
-    print(f'''
-    Order ID: {order["order_id"]} 
-    Customer: {order["customer_name"]} 
-    Customer's address: {order["customer_address"]} 
-    Customer's phone: {order["customer_phone"]}
-    Courier: {order["selected_courier"]}
-    Order status: {order["order_status"]}
-    Order items: {order["order_items"]}''')
+  table = PrettyTable()
+  for c in order_fieldnames:
+    table.add_column(c, [])
+  for dct in orders_list:
+    table.add_row([dct.get(c, "") for c in order_fieldnames])
+  print(table)
 
 def create_order(orders_list):
 
@@ -91,8 +89,10 @@ def update_order(orders_list):
 
   while True:
     try:
-      order_index = int(input("\nWhich order status would you like to update? Enter their ID number: "))
-      chosen_order = orders_list[order_index]
+      updated_order_id = int(input("\nWhich order would you like to update? Enter their ID number: "))
+      for order in orders_list:
+        if order["order_id"] == updated_order_id:
+          chosen_order = order
     except ValueError as ve:
       print("\nInvalid number. Please try again!")
     else:
@@ -105,7 +105,8 @@ def update_order(orders_list):
   updated_customer_name = input("\nPlease add the customer's name: ")
   updated_customer_address = input("\nPlease enter the customer's address: ")
   updated_customer_phone = input("\nPlease enter the customer's phone: ")
-  print_couriers(read_csv_file("data/couriers.csv"))
+  print_couriers(read_list_from_db("couriers", courier_fieldnames))
+
   while True:
     try:
       updated_selected_courier = int(input("\nPlease select from a the available couriers above by entering their ID: "))
@@ -117,28 +118,30 @@ def update_order(orders_list):
       print("\nInvalid number. Please try again!")
     else:
       break
-  print_products(read_csv_file("data/products.csv"))
+  print_products(read_list_from_db("products", product_fieldnames))
+
   updated_order_items = input("Please select multiple products seperated by comma: ").split(",")
   updated_order_items_list = [int(item) for item in updated_order_items]
 
-    # order_status_list = ["preparing", "on the way", "delivered", "cancelled"]
-    # for status in order_status_list:
-    #   print(f'{order_status_list.index(status)} - {status}')
-    # updated_status_index = int(input('\n Please choose an order status (enter their number)'))
-    # updated_order_status = order_status_list[updated_status_index]
+  order_status_list = ["preparing", "on the way", "delivered", "cancelled"]
+  for status in order_status_list:
+    print(f'{order_status_list.index(status)} - {status}')
+  updated_status_index = int(input('\n Please choose an order status (enter their number)'))
+  updated_order_status = order_status_list[updated_status_index]
 
-  updated_customer_obj = [
+  updated_order = [
     updated_customer_name, 
     updated_customer_address, 
     updated_customer_phone, 
     updated_selected_courier,
+    updated_order_status,
     updated_order_items_list 
-    # updated_order_status
     ]
 
-  update_or_skip(order_fieldnames, updated_customer_obj,chosen_order)
-
-  write_csv_file("data/orders.csv", orders_list, order_fieldnames)
+  updated_order = update_or_skip(order_fieldnames, updated_order, chosen_order)
+  print(f"Updated order: {updated_order}")
+  update_order_in_db(order_fieldnames, updated_order, updated_order_id)
+  # write_csv_file("data/orders.csv", orders_list, order_fieldnames)
 
 def delete_order(database_list):
   orders_list = database_list

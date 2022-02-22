@@ -5,6 +5,8 @@ from file_handlers.designs import *
 from src.db.db import read_list_from_db, read_list_from_orders_table
 from file_handlers.fieldnames import *
 from os import system
+from pprint import pprint
+from prettytable import PrettyTable
 
 def main_menu(*args):
   system('clear')
@@ -63,7 +65,7 @@ def products_menu():
 def couriers_menu():
   couriers_list = read_list_from_db("couriers", courier_fieldnames)
   banner()
-  print(couriers_list)
+  # print(couriers_list)
 
   chosen_menu_option = input("""
   Couriers Menu Options:
@@ -92,7 +94,7 @@ def couriers_menu():
 def orders_menu():
   # orders_list = read_csv_file("data/orders.csv")
   orders_list = read_list_from_orders_table(order_fieldnames)
-  print(orders_list)
+  # pprint(orders_list)
   banner()
 
   chosen_menu_option = input("""

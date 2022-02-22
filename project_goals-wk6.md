@@ -19,3 +19,6 @@
 
 # BONUS import/export my entities in CSV format
 
+# Using tables to display products, couriers and orders
+
+# Finishing the design, implementing "Enter to continue"
