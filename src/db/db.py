@@ -119,7 +119,6 @@ def delete_item_from_db(table, fieldnames, item_id, item_deleted):
 
   sql = f"DELETE FROM {table} WHERE {fieldnames[0]} = {item_id}"
 
-  print(f"{item_deleted} has been successfully deleted from database.")
   cursor.execute(sql)
 
   connection.commit()
@@ -139,7 +138,8 @@ def read_list_from_orders_table(fieldnames):
   SELECT orders.order_id, orders.customer_name, orders.customer_address, orders.customer_phone, orders.selected_courier, orders.order_status, products.product_name
   FROM orders
   JOIN products_on_orders ON orders.order_id = products_on_orders.order_id
-  JOIN products ON products_on_orders.product_id = products.product_id''')
+  JOIN products ON products_on_orders.product_id = products.product_id
+  ORDER BY order_id''')
   rows = cursor.fetchall()
 
   data = []
@@ -193,7 +193,6 @@ def insert_new_order_into_db(fieldnames, item):
   connection.close()
 
 def update_order_in_db(fieldnames, order, order_id):
-  print(f'Order {order}')
   connection = pymysql.connect(host=host,
                               user=user,
                               password=password,
@@ -207,11 +206,6 @@ def update_order_in_db(fieldnames, order, order_id):
   for key, value in order.items():
     if key != "order_items":
       set_string += f"{key} = '{value}',"
-    else: 
-      order_items = value
-      print(f"Order items: {order_items}")
-  
-  print(f"Set String: {set_string[:-1]}")
 
   sql = f"UPDATE orders set {set_string[:-1]} where {fieldnames[0]} = {order_id} "
   cursor.execute(sql)
@@ -220,7 +214,11 @@ def update_order_in_db(fieldnames, order, order_id):
 
   cursor = connection.cursor()
   sql2 = f"DELETE FROM products_on_orders WHERE order_id = {order_id}";
+  cursor.execute(sql2)
+  connection.commit()
+  cursor.close()
 
+  cursor = connection.cursor()
   val3 = []
   for item in order["order_items"]:
     val3.append((order_id, item))
@@ -232,3 +230,39 @@ def update_order_in_db(fieldnames, order, order_id):
   connection.commit()
   cursor.close()
   connection.close()
+
+def delete_order_from_db(order_id):
+  connection = pymysql.connect(host=host,
+                              user=user,
+                              password=password,
+                              database=database,
+                              )
+
+  cursor = connection.cursor()
+  sql = f"DELETE FROM products_on_orders WHERE order_id = {order_id}";
+  cursor.execute(sql)
+  connection.commit()
+  cursor.close()
+
+  cursor = connection.cursor()
+  sql2 = f"DELETE FROM orders WHERE order_id = {order_id}";
+  cursor.execute(sql2)
+  connection.commit()
+  cursor.close()
+
+
+  connection.close()
+
+def update_order_status_in_db(new_status, order_id):
+  connection = pymysql.connect(host=host,
+                                user=user,
+                                password=password,
+                                database=database,
+                                )
+
+  cursor = connection.cursor()
+  sql = f"UPDATE orders set order_status = '{new_status}' where order_id = {order_id} "
+  print(sql)
+  cursor.execute(sql)
+  connection.commit()
+  cursor.close()

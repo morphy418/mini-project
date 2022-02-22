@@ -35,8 +35,10 @@ def main_menu(*args):
 # PRODUCTS MENU
 def products_menu():
   products_list = read_list_from_db("products", product_fieldnames)
+  write_csv_file("data/products.csv", products_list, product_fieldnames)
+
   banner()
-  print(products_list)
+  # print(products_list)
   
   chosen_menu_option = input("""
   Products Menu Options:
@@ -64,6 +66,8 @@ def products_menu():
 # COURIER MENU
 def couriers_menu():
   couriers_list = read_list_from_db("couriers", courier_fieldnames)
+  write_csv_file("data/couriers.csv", couriers_list, courier_fieldnames)
+
   banner()
   # print(couriers_list)
 
@@ -92,9 +96,8 @@ def couriers_menu():
 
 # ORDERS MENU
 def orders_menu():
-  # orders_list = read_csv_file("data/orders.csv")
   orders_list = read_list_from_orders_table(order_fieldnames)
-  # pprint(orders_list)
+  write_csv_file("data/orders.csv", orders_list, order_fieldnames)
   banner()
 
   chosen_menu_option = input("""

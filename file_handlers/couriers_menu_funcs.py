@@ -1,3 +1,4 @@
+from pymysql import IntegrityError
 from file_handlers.file_management import deletion_confirmation, write_csv_file, update_or_skip, deletion_confirmation
 from file_handlers.fieldnames import courier_fieldnames
 from src.db.db import delete_item_from_db, insert_new_item_into_db, update_item_in_db
@@ -76,20 +77,19 @@ def update_courier(couriers_list):
   updated_courier = update_or_skip(courier_fieldnames, updated_courier, chosen_courier)
   update_item_in_db("couriers", courier_fieldnames, updated_courier, updated_courier_id)
 
-  # write_csv_file("data/couriers.csv", couriers_list, courier_fieldnames)
-
 def delete_courier(couriers_list):
   print_couriers(couriers_list)
   
   while True:
     try:
       deletion_id = int(input("\nWhich courier would you like to delete? Enter their ID number: "))
-    except ValueError as err:
+      courier_deleted = deletion_confirmation(couriers_list, deletion_id, "courier")
+      delete_item_from_db("couriers", courier_fieldnames, deletion_id, courier_deleted)
+    except ValueError as va:
       print("\nInvalid index. Please try again!")
+    except IntegrityError as ie:
+      print("\nThis item is assigned to another table and cannot be deleted. Please choose another one.")
     else:
       break
 
-  courier_deleted = deletion_confirmation(couriers_list, deletion_id, "courier")
-  delete_item_from_db("couriers", courier_fieldnames, deletion_id, courier_deleted)
-
-  write_csv_file("data/couriers.csv", couriers_list, courier_fieldnames)
+  print(f"{courier_deleted} has been successfully deleted from database.")

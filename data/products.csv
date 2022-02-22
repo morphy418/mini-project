@@ -1,12 +1,10 @@
 product_id,product_name,product_type,product_price
-1,espresso,hot bev,2
-2,latte,hot bev,2
-3,espresso,hot bev,2
-4,cappuccino,hot bev,2
-5,orange juice,juice,2
-6,grapefruit juice,juice,2
-7,croissant,hot bev,2
-8,pain au chocolat,pastry,2
-9,earl grey,hot bev,2
-10,breakfast tea,hot bev,2
-11,Evian,cold bev,2
+1,espresso,hot bev,1.6
+2,latte,hot bev,1.8
+4,cappuccino,hot bev,2.0
+5,orange juice,juice,2.4
+6,grapefruit juice,juice,2.4
+7,croissant,hot bev,2.1
+8,pain au chocolat,pastry,2.1
+9,earl grey,hot bev,1.8
+10,breakfast tea,hot bev,1.8

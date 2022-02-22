@@ -13,8 +13,7 @@
 
   Delete product/order/courier
 ## BONUS list orders by status or courier
-  
-## BONUS track my product inventory
 
 ## BONUS import/export my entities in CSV format
+  Export COMPLETED
 

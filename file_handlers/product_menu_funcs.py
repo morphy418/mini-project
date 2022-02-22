@@ -1,4 +1,6 @@
 from pprint import PrettyPrinter
+
+from pymysql import IntegrityError
 from file_handlers.file_management import deletion_confirmation, write_csv_file, update_or_skip, deletion_confirmation
 from file_handlers.fieldnames import product_fieldnames
 from src.db.db import delete_item_from_db, insert_new_item_into_db, update_item_in_db, delete_item_from_db
@@ -94,13 +96,14 @@ def delete_product(products_list):
   while True:
     try:
       deletion_id = int(input("\nWhich product would you like to delete? Enter their ID number: "))
-    except ValueError as err:
+      product_deleted = deletion_confirmation(products_list, deletion_id, "product")
+      delete_item_from_db("products", product_fieldnames, deletion_id, product_deleted)
+    except ValueError as va:
       print("\nInvalid number. Please try again!")
+    except IntegrityError as ie:
+      print("\nThis item is assigned to another table and cannot be deleted. Please choose another one.")
     else:
       break
 
-  product_deleted = deletion_confirmation(products_list, deletion_id, "product")
-  delete_item_from_db("products", product_fieldnames, deletion_id, product_deleted)
-
-  # write_csv_file("data/products.csv", products_list_deleted, product_fieldnames)
-  
+  print(f"{product_deleted} has been successfully deleted from database.")
+      
