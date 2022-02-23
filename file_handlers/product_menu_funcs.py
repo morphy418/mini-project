@@ -52,10 +52,11 @@ def update_product(products_list):
     try:
       updated_product_id = int(input("\nWhich product would you like to update? Enter their ID number: "))
       for product in products_list:
-        if product["product_id"] == updated_product_id:
-          chosen_product = product
-        else:
+        if updated_product_id not in [dict['product_id'] for dict in products_list]:
           raise ValueError
+        elif product["product_id"] == updated_product_id:
+          chosen_product = product
+
     except ValueError as err:
       print("\nInvalid number. Please try again!")
     else:
@@ -95,6 +96,8 @@ def delete_product(products_list):
   while True:
     try:
       deletion_id = int(input("\nWhich product would you like to delete? Enter their ID number: "))
+      if deletion_id not in [dict['product_id'] for dict in products_list]:
+          raise ValueError
       product_deleted = deletion_confirmation(products_list, deletion_id, "product")
       delete_item_from_db("products", product_fieldnames, deletion_id, product_deleted)  
     except ValueError as va:

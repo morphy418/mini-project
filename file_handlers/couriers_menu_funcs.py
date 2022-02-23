@@ -49,8 +49,11 @@ def update_courier(couriers_list):
     try:
       updated_courier_id = int(input("\nWhich courier would you like to update? Enter their ID number: "))
       for courier in couriers_list:
-        if courier["courier_id"] == updated_courier_id:
+        if updated_courier_id not in [dict['courier_id'] for dict in couriers_list]:
+          raise ValueError
+        elif courier["courier_id"] == updated_courier_id:
           chosen_courier = courier
+  
     except ValueError as err:
       print("\nInvalid number. Please try again!")
     else:
@@ -91,6 +94,8 @@ def delete_courier(couriers_list):
   while True:
     try:
       deletion_id = int(input("\nWhich courier would you like to delete? Enter their ID number: "))
+      if deletion_id not in [dict['courier_id'] for dict in couriers_list]:
+          raise ValueError
       courier_deleted = deletion_confirmation(couriers_list, deletion_id, "courier")
       delete_item_from_db("couriers", courier_fieldnames, deletion_id, courier_deleted)
     except ValueError as va:
