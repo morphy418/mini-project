@@ -1,7 +1,7 @@
-from pprint import PrettyPrinter
+from math import prod
 
 from pymysql import IntegrityError
-from file_handlers.file_management import deletion_confirmation, write_csv_file, update_or_skip, deletion_confirmation
+from file_handlers.file_management import deletion_confirmation, update_or_skip, deletion_confirmation
 from file_handlers.fieldnames import product_fieldnames
 from src.db.db import delete_item_from_db, insert_new_item_into_db, update_item_in_db, delete_item_from_db
 from os import system
@@ -13,12 +13,17 @@ def print_products(products_list):
     table.add_column(c, [])
   for dct in products_list:
     table.add_row([dct.get(c, "") for c in product_fieldnames])
+  print(table)
 
+def print_chosen_product(item, fieldnames):
+  table = PrettyTable()
+  table.field_names = fieldnames
+  table.add_row(item.values())
   print(table)
   
 def create_new_product(products_list):
-
-  new_product_name = input("\nPlease add a New Product: ")
+  print_products(products_list)
+  new_product_name = input("\nPlease add a new product name: ")
   new_product_type = input("\nPlease enter the type of the new product: ")
   while True: 
     try:
@@ -34,38 +39,31 @@ def create_new_product(products_list):
     "product_price" : new_product_price
   }
   
-  products_list.append(new_product)
-
-  write_csv_file("data/products.csv", products_list, product_fieldnames)
   insert_new_item_into_db("products", product_fieldnames, new_product)
   
-  system('clear')
-  
+  print_chosen_product(new_product, product_fieldnames[1:])
+  print("New product has been created!")
+    
 def update_product(products_list):
   print_products(products_list)
 
   while True:
     try:
       updated_product_id = int(input("\nWhich product would you like to update? Enter their ID number: "))
-
       for product in products_list:
         if product["product_id"] == updated_product_id:
           chosen_product = product
-
-      # print_products(product)
     except ValueError as err:
       print("\nInvalid number. Please try again!")
     else:
       system('clear')
       break
 
-  # print(f'\Product to update: {chosen_product}\n')
-  print_products(chosen_product)
-
+  print_chosen_product(chosen_product, product_fieldnames)
   print("Please enter the new product data. (Hit 'Enter' if you don't want to change it): \n")
 
-  updated_product_name = input("Updated Product Name: ")
-  updated_product_type = input("Updated Product Type: ")
+  updated_product_name = input("Updated product name: ")
+  updated_product_type = input("Updated product type: ")
   while True:
     try:
       updated_product_price = float(input("Updated Product Price: "))
@@ -84,11 +82,9 @@ def update_product(products_list):
   ]
 
   updated_product = update_or_skip(product_fieldnames, updated_product, chosen_product)
- 
   update_item_in_db("products", product_fieldnames, updated_product, updated_product_id)
-  # write_csv_file("data/products.csv", products_list, product_fieldnames)
-  
-  system('clear')
+  print_chosen_product(updated_product, product_fieldnames)
+  print("Product has been updated!")
 
 def delete_product(products_list):
   print_products(products_list)
@@ -104,6 +100,6 @@ def delete_product(products_list):
       print("\nThis item is assigned to another table and cannot be deleted. Please choose another one.")
     else:
       break
-
-  print(f"{product_deleted} has been successfully deleted from database.")
+  print_chosen_product(product_deleted, product_fieldnames)
+  print("The product has been successfully deleted from database.")
       

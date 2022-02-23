@@ -6,5 +6,11 @@ product_id,product_name,product_type,product_price
 6,grapefruit juice,juice,2.4
 7,croissant,hot bev,2.1
 8,pain au chocolat,pastry,2.1
-9,earl grey,hot bev,1.8
+9,earl grey,hot bev,1.7
 10,breakfast tea,hot bev,1.8
+13,hot cocoa,hot bev,2.2
+14,meatball sub,sandwich,4.3
+15,ham sandwich,sandwich,4.1
+16,falafel panini,panini,3.8
+17,full english,breakfast,9.5
+18,eggs royale,breakfast,9.6

@@ -10,26 +10,6 @@ user = os.environ.get("mysql_user")
 password = os.environ.get("mysql_pass")
 database = os.environ.get("mysql_db")
 
-# product_fieldnames = [
-#       "product_id",
-#       "product_name", 
-#       "product_type", 
-#       "product_price", 
-#       ]
-
-# products_list = [
-#   {'product_name': 'espresso', 'product_type': 'hot bev', 'product_price': 2.2}, 
-#   {'product_name': 'latte', 'product_type': 'hot bev', 'product_price': 2.2}, 
-#   {'product_name': 'espresso', 'product_type': 'hot bev', 'product_price': 2.2}, 
-#   {'product_name': 'cappuccino', 'product_type': 'hot bev', 'product_price': 2.2}, 
-#   {'product_name': 'orange juice', 'product_type': 'juice', 'product_price': 2.2}, 
-#   {'product_name': 'grapefruit juice', 'product_type': 'juice', 'product_price': 2.2}, 
-#   {'product_name': 'croissant', 'product_type': 'hot bev', 'product_price': 2.2}, 
-#   {'product_name': 'ain au chocolat', 'product_type': 'pastry', 'product_price': 2.2}, 
-#   {'product_name': 'earl grey', 'product_type': 'hot bev', 'product_price': 2.2}]
-
-# item = {'product_name': 'espresso', 'product_type': 'hot bev', 'product_price': 2.2}
-
 def read_list_from_db(table, fieldnames):
 
   connection = pymysql.connect(host=host,
@@ -96,8 +76,6 @@ def update_item_in_db(table, fieldnames, item, item_id):
   for key, value in item.items():
     set_string += f"{key} = '{value}',"
   
-  print(set_string[:-1])
-
   sql = f"UPDATE {table} set {set_string[:-1]} where {fieldnames[0]} = {item_id} "
     
   cursor.execute(sql)
@@ -164,7 +142,6 @@ def insert_new_order_into_db(fieldnames, item):
   cursor = connection.cursor()
 
   no_id_fieldnames = fieldnames[1:-1]
-  print(no_id_fieldnames)
   selection = ','.join(no_id_fieldnames)
   number_of_fieldnames = len(no_id_fieldnames)
 
@@ -262,7 +239,6 @@ def update_order_status_in_db(new_status, order_id):
 
   cursor = connection.cursor()
   sql = f"UPDATE orders set order_status = '{new_status}' where order_id = {order_id} "
-  print(sql)
   cursor.execute(sql)
   connection.commit()
   cursor.close()

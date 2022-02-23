@@ -34,11 +34,11 @@ def main_menu(*args):
 
 # PRODUCTS MENU
 def products_menu():
+  system('clear')
   products_list = read_list_from_db("products", product_fieldnames)
   write_csv_file("data/products.csv", products_list, product_fieldnames)
 
   banner()
-  # print(products_list)
   
   chosen_menu_option = input("""
   Products Menu Options:
@@ -52,9 +52,9 @@ def products_menu():
   Please enter the menu option number: """)
 
   try:
-    system('clear')
     products_menu_func = products_menu_options[chosen_menu_option]
     products_menu_func(products_list)
+    input("Press Enter to continue...")
     if chosen_menu_option != "0":
       products_menu() 
     
@@ -65,11 +65,11 @@ def products_menu():
 
 # COURIER MENU
 def couriers_menu():
+  system('clear')
   couriers_list = read_list_from_db("couriers", courier_fieldnames)
   write_csv_file("data/couriers.csv", couriers_list, courier_fieldnames)
 
   banner()
-  # print(couriers_list)
 
   chosen_menu_option = input("""
   Couriers Menu Options:
@@ -83,9 +83,9 @@ def couriers_menu():
   Please enter the menu option number: """)
 
   try:
-    system('clear')
     courier_menu_func = courier_menu_options[chosen_menu_option]
     courier_menu_func(couriers_list)
+    input("Press Enter to continue...")
     if chosen_menu_option != "0":
       couriers_menu()
     
@@ -98,6 +98,8 @@ def couriers_menu():
 def orders_menu():
   orders_list = read_list_from_orders_table(order_fieldnames)
   write_csv_file("data/orders.csv", orders_list, order_fieldnames)
+  system('clear')
+
   banner()
 
   chosen_menu_option = input("""
@@ -113,9 +115,9 @@ def orders_menu():
   Please enter the menu option number: """)
 
   try:
-    system('clear')
     orders_menu_func = orders_menu_options[chosen_menu_option]
     orders_menu_func(orders_list)
+    input("Press Enter to continue...")
     if chosen_menu_option != "0":
       orders_menu() 
     

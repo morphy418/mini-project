@@ -12,7 +12,14 @@ def print_couriers(couriers_list):
     table.add_row([dct.get(c, "") for c in courier_fieldnames])
   print(table)
 
+def print_chosen_courier(item, fieldnames):
+  table = PrettyTable()
+  table.field_names = fieldnames
+  table.add_row(item.values())
+  print(table)
+
 def create_courier(couriers_list):
+  print_couriers(couriers_list)
   new_courier_name = input("\nPlease enter the courier's name: ")
   new_courier_company = input("\nPlease enter the company of the courier: ")
   new_courier_phone = input("\nPlease enter the courier's phone number: ")
@@ -31,10 +38,9 @@ def create_courier(couriers_list):
     "courier_availability" : new_courier_availability,
   }
   
-  couriers_list.append(new_courier)
-
-  write_csv_file("data/couriers.csv", couriers_list, courier_fieldnames)
   insert_new_item_into_db("couriers", courier_fieldnames, new_courier)
+  print_chosen_courier(new_courier, courier_fieldnames[1:])
+  print("New courier has been created!")
   
 def update_courier(couriers_list):
   print_couriers(couriers_list)
@@ -49,8 +55,8 @@ def update_courier(couriers_list):
       print("\nInvalid number. Please try again!")
     else:
       break
-      
-  print(f'\nCourier to update: {chosen_courier}')
+  
+  print_chosen_courier(chosen_courier, courier_fieldnames)
   print("Please enter the new courier data. (Hit 'Enter' if you don't want to change it): \n")
 
   updated_courier_name = input("Update courier's name: ")
@@ -76,6 +82,8 @@ def update_courier(couriers_list):
 
   updated_courier = update_or_skip(courier_fieldnames, updated_courier, chosen_courier)
   update_item_in_db("couriers", courier_fieldnames, updated_courier, updated_courier_id)
+  print_chosen_courier(updated_courier, courier_fieldnames)
+  print("Courier has been updated!")
 
 def delete_courier(couriers_list):
   print_couriers(couriers_list)
@@ -91,5 +99,6 @@ def delete_courier(couriers_list):
       print("\nThis item is assigned to another table and cannot be deleted. Please choose another one.")
     else:
       break
-
-  print(f"{courier_deleted} has been successfully deleted from database.")
+  
+  print_chosen_courier(courier_deleted, courier_fieldnames)
+  print(f"Courier has been successfully deleted from database.")

@@ -13,7 +13,14 @@ def print_orders(orders_list):
     table.add_row([dct.get(c, "") for c in order_fieldnames])
   print(table)
 
+def print_chosen_order(item, fieldnames):
+  table = PrettyTable()
+  table.field_names = fieldnames
+  table.add_row(item.values())
+  print(table)
+
 def create_order(orders_list):
+  print_orders(orders_list)
 
   customer_name = input("\nPlease add the customer's name: ")
   customer_address = input("\nPlease enter the customer's address: ")
@@ -30,18 +37,8 @@ def create_order(orders_list):
   print_products(read_list_from_db("products", product_fieldnames))
   order_items = input("Please select multiple product IDs seperated by comma: ").split(",")
   order_items_list = [int(item) for item in order_items]
-
-  new_order = f'''
-  New Order:
-  Customer: {customer_name} 
-  Customer's address: {customer_address} 
-  Customer's phone: {customer_phone}
-  Courier: {selected_courier}
-  Order status: {order_status}
-  Order items: {order_items_list}'''
-  print(new_order)
   
-  new_order_dict = {
+  new_order = {
     "customer_name": customer_name,
     "customer_address" : customer_address,
     "customer_phone" : customer_phone,
@@ -50,9 +47,9 @@ def create_order(orders_list):
     "order_items" : order_items_list
     }
 
-  orders_list.append(new_order_dict)
-
-  insert_new_order_into_db(order_fieldnames, new_order_dict)
+  insert_new_order_into_db(order_fieldnames, new_order)
+  print_chosen_order(new_order, order_fieldnames[1:])
+  print("New order has been created!")
 
 def update_order_status(orders_list):
   print_orders(orders_list)
@@ -68,22 +65,21 @@ def update_order_status(orders_list):
     else:
       break
 
+  print_chosen_order(chosen_order, order_fieldnames)
   order_status_list = ["preparing", "on the way", "delivered", "cancelled"]
   for status in order_status_list:
     print(f'{order_status_list.index(status)} - {status}')
-  print(f'\nOrder status to update: {chosen_order}\n')
   while True:
     try:
-      status_index = int(input('\n Please choose an order status (enter their number): '))
+      status_index = int(input('\nPlease choose an order status (enter their number): '))
     except ValueError as err:
       print("\nInvalid number. Please try again!")
     else:
       break
 
   new_status = order_status_list[status_index]
-
   update_order_status_in_db(new_status, order_id)
-  input("press enter to continue")
+  print("Order status has been updated!")
 
 def update_order(orders_list):
   print_orders(orders_list)
@@ -91,15 +87,16 @@ def update_order(orders_list):
   while True:
     try:
       updated_order_id = int(input("\nWhich order would you like to update? Enter their ID number: "))
+      chosen_order = []
       for order in orders_list:
         if order["order_id"] == updated_order_id:
-          chosen_order = order
+          chosen_order.append(order)
     except ValueError as ve:
       print("\nInvalid number. Please try again!")
     else:
       break
-  
-  print(f'\nOrder to update: {chosen_order}\n')
+
+  print_orders(chosen_order)
 
   print("Please enter the new order data. (Hit 'Enter' if you don't want to change it): \n")
   
@@ -139,17 +136,21 @@ def update_order(orders_list):
     updated_order_items_list 
     ]
 
-  updated_order = update_or_skip(order_fieldnames, updated_order, chosen_order)
-  print(f"Updated order: {updated_order}")
+  chosen_order_update_check = chosen_order[0]
+  updated_order = update_or_skip(order_fieldnames, updated_order, chosen_order_update_check)
   update_order_in_db(order_fieldnames, updated_order, updated_order_id)
-
-def delete_order(database_list):
-  orders_list = database_list
+  
+  print("Order has been updated!")
+def delete_order(orders_list):
   print_orders(orders_list)
   
   while True:
     try:
       deletion_id = int(input("\nWhich order would you like to delete? Enter their ID number: "))
+      chosen_order_to_delete = []
+      for order in orders_list:
+        if order["order_id"] == deletion_id:
+          chosen_order_to_delete.append(order)
     except ValueError as ve:
       print("\nInvalid number. Please try again!")
     else:
@@ -157,5 +158,7 @@ def delete_order(database_list):
 
   order_deleted = deletion_confirmation(orders_list, deletion_id, "order")
   delete_order_from_db(deletion_id)
+  print_orders(chosen_order_to_delete)
+  print("Order has been deleted!")
 
   

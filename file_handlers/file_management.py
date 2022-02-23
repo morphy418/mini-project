@@ -33,6 +33,7 @@ def deletion_confirmation(list, deletion_id, item_type):
     deleted_item = list.pop(index_of_item)
     return deleted_item
 
+
 # def read_file(file_name):
 #   with open(file_name, "r") as open_file:
 #     file_contents = open_file.readlines()
