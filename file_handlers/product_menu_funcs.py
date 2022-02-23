@@ -1,4 +1,5 @@
 from math import prod
+from multiprocessing.sharedctypes import Value
 
 from pymysql import IntegrityError
 from file_handlers.file_management import deletion_confirmation, update_or_skip, deletion_confirmation
@@ -53,6 +54,8 @@ def update_product(products_list):
       for product in products_list:
         if product["product_id"] == updated_product_id:
           chosen_product = product
+        else:
+          raise ValueError
     except ValueError as err:
       print("\nInvalid number. Please try again!")
     else:
@@ -93,7 +96,7 @@ def delete_product(products_list):
     try:
       deletion_id = int(input("\nWhich product would you like to delete? Enter their ID number: "))
       product_deleted = deletion_confirmation(products_list, deletion_id, "product")
-      delete_item_from_db("products", product_fieldnames, deletion_id, product_deleted)
+      delete_item_from_db("products", product_fieldnames, deletion_id, product_deleted)  
     except ValueError as va:
       print("\nInvalid number. Please try again!")
     except IntegrityError as ie:

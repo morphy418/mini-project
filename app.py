@@ -24,12 +24,12 @@ def main_menu(*args):
   Please enter the corresponding number: """)
 
   try:
-    system('clear')
     main_menu_func = main_menu_options[user_input]
     main_menu_func()
     
   except KeyError as ke:
     print(f'{ke} is an invalid number, please try again!')
+    input("Press Enter to continue...")
     main_menu()
 
 # PRODUCTS MENU
@@ -59,9 +59,10 @@ def products_menu():
       products_menu() 
     
   except KeyError as ke:
-    print(f'{ke} is an invalid number, please try again!')
+    print(f'\n{ke} is an invalid number, please try again!')
+    input("Press Enter to continue...")
     products_menu()
-    system('clear')
+    
 
 # COURIER MENU
 def couriers_menu():
@@ -90,9 +91,9 @@ def couriers_menu():
       couriers_menu()
     
   except KeyError as ke:
-    print(f'{ke} is an invalid number, please try again!')
+    print(f'\n{ke} is an invalid number, please try again!')
+    input("Press Enter to continue...")
     couriers_menu()
-    system('clear')
 
 # ORDERS MENU
 def orders_menu():
@@ -122,9 +123,9 @@ def orders_menu():
       orders_menu() 
     
   except KeyError as ke:
-    print(f'{ke} is an invalid number, please try again!')
+    print(f'\n{ke} is an invalid number, please try again!')
+    input("Press Enter to continue...")
     orders_menu()
-    system('clear')
 
 # MENU OPTIONS
 main_menu_options = {
