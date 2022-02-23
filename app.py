@@ -8,6 +8,7 @@ from os import system
 from pprint import pprint
 from prettytable import PrettyTable
 
+# MAIN MENU
 def main_menu(*args):
   system('clear')
   print("Welcome to".center(50))
@@ -63,7 +64,6 @@ def products_menu():
     input("Press Enter to continue...")
     products_menu()
     
-
 # COURIER MENU
 def couriers_menu():
   system('clear')

@@ -1,9 +1,9 @@
 order_id,customer_name,customer_address,customer_phone,selected_courier,order_status,order_items
+1,Xen,45 Etc Str,0114 496 0281,3,on the way,cappuccino
 1,Xen,45 Etc Str,0114 496 0281,3,on the way,grapefruit juice
 1,Xen,45 Etc Str,0114 496 0281,3,on the way,latte
 1,Xen,45 Etc Str,0114 496 0281,3,on the way,cappuccino
 1,Xen,45 Etc Str,0114 496 0281,3,on the way,grapefruit juice
-1,Xen,45 Etc Str,0114 496 0281,3,on the way,cappuccino
 2,Susie,55 Python Ave,0117 496 0622,2,cancelled,cappuccino
 2,Susie,55 Python Ave,0117 496 0622,2,cancelled,cappuccino
 2,Susie,55 Python Ave,0117 496 0622,2,cancelled,espresso
@@ -13,9 +13,9 @@ order_id,customer_name,customer_address,customer_phone,selected_courier,order_st
 2,Susie,55 Python Ave,0117 496 0622,2,cancelled,croissant
 7,Alex,Oak Street,234523 54235 35,4,preparing,cappuccino
 7,Alex,Oak Street,234523 54235 35,4,preparing,grapefruit juice
+9,Roshni,43 Sunglasses Road,073 3244 6653,4,on the way,espresso
 9,Roshni,43 Sunglasses Road,073 3244 6653,4,on the way,latte
 9,Roshni,43 Sunglasses Road,073 3244 6653,4,on the way,orange juice
-9,Roshni,43 Sunglasses Road,073 3244 6653,4,on the way,espresso
 12,Eddie,11 Canada Water,074 425 6315,7,preparing,breakfast tea
 12,Eddie,11 Canada Water,074 425 6315,7,preparing,hot cocoa
 12,Eddie,11 Canada Water,074 425 6315,7,preparing,falafel panini
@@ -27,5 +27,5 @@ order_id,customer_name,customer_address,customer_phone,selected_courier,order_st
 14,Kojo,9 Plant Corner,045 245 2456,4,preparing,latte
 14,Kojo,9 Plant Corner,045 245 2456,4,preparing,orange juice
 14,Kojo,9 Plant Corner,045 245 2456,4,preparing,pain au chocolat
-17,Alaa,47 Tennis Court,067 245 6367,4,preparing,eggs royale
-17,Alaa,47 Tennis Court,067 245 6367,4,preparing,falafel panini
+17,Alaa,47 Tennis Court,067 245 6367,4,on the way,eggs royale
+17,Alaa,47 Tennis Court,067 245 6367,4,on the way,falafel panini

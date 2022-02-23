@@ -52,8 +52,6 @@ def create_order(orders_list):
     else:
       break
 
-  
-  
   new_order = {
     "customer_name": customer_name,
     "customer_address" : customer_address,
@@ -92,12 +90,15 @@ def update_order_status(orders_list):
   while True:
     try:
       status_index = int(input('\nPlease choose an order status (enter their number): '))
+      new_status = order_status_list[status_index]    
     except ValueError as err:
+      print("\nInvalid number. Please try again!")
+    except IndexError as ie:
       print("\nInvalid number. Please try again!")
     else:
       break
 
-  new_status = order_status_list[status_index]
+  
   update_order_status_in_db(new_status, order_id)
   print("Order status has been updated!")
 
@@ -173,8 +174,6 @@ def update_order(orders_list):
     else:
       break
 
-  
-
   updated_order = [
     updated_customer_name, 
     updated_customer_address, 
@@ -189,6 +188,7 @@ def update_order(orders_list):
   update_order_in_db(order_fieldnames, updated_order, updated_order_id)
   
   print("Order has been updated!")
+  
 def delete_order(orders_list):
   print_orders(orders_list)
   
